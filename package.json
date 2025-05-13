@@ -1,0 +1,16 @@
+{
+	"scripts": {
+		"knip": "knip"
+	},
+	"author": "",
+	"license": "0BSD",
+	"description": "",
+	"devDependencies": {
+		"@pumpn/eslint-config": "^15.5.3",
+		"@types/node": "^22.10.2",
+		"eslint": "9.14.0",
+		"knip": "^5.41.0",
+		"typescript": "^5.7.2"
+	},
+	"type": "module"
+}

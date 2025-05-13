@@ -1,0 +1,54 @@
+{
+	"tasks": {
+		"initialize": "deno run -R -W --allow-run=npm ./scripts/initialize.js",
+		"upkeep": "deno run --allow-run=npx jsr:@pumpn/upkeep",
+		"lint": "npx eslint@9.14.0",
+		"start": "deno run --env main.js"
+	},
+	"fmt": {
+		"options": {
+			"useTabs": true,
+			"indentWidth": 1,
+			"singleQuote": false,
+			"lineWidth": 80,
+			"proseWrap": "never",
+			"semiColons": true
+		}
+	},
+	"nodeModulesDir": "none",
+	"compilerOptions": {
+		"allowUnreachableCode": false,
+		"allowUnusedLabels": false,
+		"checkJs": true,
+		"exactOptionalPropertyTypes": true,
+		"jsx": "react-jsx",
+		"jsxImportSource": "preact",
+		"noErrorTruncation": true,
+		"noFallthroughCasesInSwitch": false,
+		"noImplicitAny": true,
+		"noImplicitOverride": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noPropertyAccessFromIndexSignature": false,
+		"noUncheckedIndexedAccess": false,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"strictNullChecks": true,
+		"strict": true,
+		"strictPropertyInitialization": false,
+		"lib": [
+			"dom",
+			"dom.iterable",
+			"dom.asynciterable",
+			"deno.ns",
+			"deno.unstable"
+		]
+	},
+	"unstable": [
+		"temporal",
+		"kv"
+	],
+	"imports": {
+		"@std/path": "jsr:@std/path@^1.0.8"
+	}
+}
