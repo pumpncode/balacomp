@@ -299,6 +299,6 @@
 		@apply absolute text-transparent scale-95 -z-1;
 		content: var(--text-shadow-elevated-content);
 
-		text-shadow: 0px 3px 0px #00000040;
+		text-shadow: 0px 0.1em 0px #00000040;
 	}
 }
