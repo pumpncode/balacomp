@@ -22,7 +22,6 @@
     "jsr:@std/net@^1.0.4": "1.0.4",
     "jsr:@std/path@1": "1.0.9",
     "jsr:@std/path@^1.0.6": "1.0.9",
-    "jsr:@std/path@^1.0.8": "1.0.9",
     "jsr:@std/path@^1.0.9": "1.0.9",
     "jsr:@std/semver@1": "1.0.5",
     "jsr:@std/streams@^1.0.9": "1.0.9",
@@ -41,7 +40,6 @@
     "npm:preact-render-to-string@^6.5.11": "6.5.13_preact@10.26.6",
     "npm:preact@^10.26.6": "10.26.6",
     "npm:tailwindcss@^4.1.6": "4.1.7",
-    "npm:typescript-to-lua@1.31.0": "1.31.0_typescript@5.8.2",
     "npm:typescript-to-lua@^1.31.0": "1.31.0_typescript@5.8.2",
     "npm:usehooks-ts@^3.1.1": "3.1.1_react@19.1.0",
     "npm:valibot@^1.1.0": "1.1.0"

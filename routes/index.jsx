@@ -1,7 +1,6 @@
-import clsx from "clsx";
 import { page } from "fresh";
 
-import { define } from "./(_common)/_exports.js";
+import { Button, define } from "./(_common)/_exports.js";
 
 const {
 	Now
@@ -34,26 +33,25 @@ const Home = define.page(() => (
 				<div className="flex gap-8">
 					{
 						[
-							["Sync", "bg-pixel-balatro-blue-500 hover:bg-pixel-balatro-blue-600"],
+							["Sync", "blue"],
 							["Import"],
 							["Export"]
 						]
-							.map(([label, className = "bg-pixel-balatro-red-500 hover:bg-pixel-balatro-red-600"]) => (
-								<button
-									className={clsx(
-										"drop-shadow-dynamic rounded-pixel-8-2  relative items-center justify-center px-6 py-2 text-4xl text-white",
-										className
-									)}
+							.map(([label, color]) => (
+								<Button
+									disabled
+									as="a"
+									href="#"
+									key={label}
+									{...{ color }}
 								>
-									<span className="text-shadow-elevated">{label}</span>
-								</button>
+									{label}
+								</Button>
 							))
 					}
 				</div>
 
 			</div>
-
-			{/* <div className="drop-shadow-dynamic h-1 w-full bg-white" /> */}
 
 			<div className="drop-shadow-extrude drop-shadow-balatro-gray-600 bg-pixel-balatro-gray-500 rounded-pixel-8-2 flex flex-col items-end justify-end gap-4 self-start p-4">
 				<div className="flex gap-4">
@@ -62,17 +60,17 @@ const Home = define.page(() => (
 							["Jokers"],
 							["Decks"],
 							["Vouchers"],
-							["Consumables", "bg-pixel-balatro-orange-500 hover:bg-pixel-balatro-orange-600"]
+							["Consumables", "orange"]
 						]
-							.map(([label, className = "bg-pixel-balatro-red-500 hover:bg-pixel-balatro-red-600"]) => (
-								<button
-									className={clsx(
-										"drop-shadow-dynamic rounded-pixel-8-2  relative items-center justify-center px-6 py-2 text-4xl text-white",
-										className
-									)}
+							.map(([label, color]) => (
+								<Button
+									as="a"
+									href="#"
+									key={label}
+									{...{ color }}
 								>
-									<span className="text-shadow-elevated">{label}</span>
-								</button>
+									{label}
+								</Button>
 							))
 					}
 				</div>
@@ -88,15 +86,16 @@ const Home = define.page(() => (
 							["Blinds"],
 							["Other"]
 						]
-							.map(([label, className = "bg-pixel-balatro-red-500 hover:bg-pixel-balatro-red-600"]) => (
-								<button
-									className={clsx(
-										"drop-shadow-dynamic rounded-pixel-8-2 bg-pixel-balatro-red-500 relative items-center justify-center px-4 py-2 text-xl text-white",
-										className
-									)}
+							.map(([label, color]) => (
+								<Button
+									as="a"
+									href="#"
+									key={label}
+									size="xl"
+									{...{ color }}
 								>
-									<span className="text-shadow-elevated">{label}</span>
-								</button>
+									{label}
+								</Button>
 							))
 					}
 				</div>
