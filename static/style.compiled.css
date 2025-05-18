@@ -15,6 +15,8 @@
     --text-6xl: 3.75rem;
     --text-6xl--line-height: 1;
     --font-weight-bold: 700;
+    --default-transition-duration: 150ms;
+    --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --default-font-family: m6x11plus, sans-serif;
     --default-mono-font-family: Monaspace Neon, monospace;
   }
@@ -165,6 +167,9 @@
   }
 }
 @layer utilities {
+  .pointer-events-none {
+    pointer-events: none;
+  }
   .visible {
     visibility: visible;
   }
@@ -285,6 +290,9 @@
   .transform {
     transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
   }
+  .cursor-not-allowed {
+    cursor: not-allowed;
+  }
   .resize {
     resize: both;
   }
@@ -364,7 +372,7 @@
     }
   }
   .bg-balatro-gray-700 {
-    background-color: oklch(0.36188243139423987 0.014986167716872634 211.1528587554597);
+    background-color: oklch(0.29082732262734956 0.02497694619478772 211.1528587554597);
   }
   .bg-white {
     background-color: var(--color-white);
@@ -380,6 +388,9 @@
   }
   .px-6 {
     padding-inline: calc(var(--spacing) * 6);
+  }
+  .py-1\.5 {
+    padding-block: calc(var(--spacing) * 1.5);
   }
   .py-2 {
     padding-block: calc(var(--spacing) * 2);
@@ -429,23 +440,36 @@
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
   }
   .drop-shadow-balatro-gray-600 {
-    --tw-drop-shadow-color: oklch(0.4232973178865779 0.019981556955830176 211.1528587554597);
+    --tw-drop-shadow-color: oklch(0.3877697635031327 0.02497694619478772 211.1528587554597);
     @supports (color: color-mix(in lab, red, red)) {
-      --tw-drop-shadow-color: color-mix(in oklab, oklch(0.4232973178865779 0.019981556955830176 211.1528587554597) var(--tw-drop-shadow-alpha), transparent);
+      --tw-drop-shadow-color: color-mix(in oklab, oklch(0.3877697635031327 0.02497694619478772 211.1528587554597) var(--tw-drop-shadow-alpha), transparent);
     }
     --tw-drop-shadow: var(--tw-drop-shadow-size);
+  }
+  .grayscale-75 {
+    --tw-grayscale: grayscale(75%);
+    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
   }
   .filter {
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
   }
+  .transition {
+    transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, visibility, content-visibility, overlay, pointer-events;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
+  .duration-75 {
+    --tw-duration: 75ms;
+    transition-duration: 75ms;
+  }
   .hover\:bg-pixel-balatro-blue-600 {
     &:hover {
       @media (hover: hover) {
-        background-color: oklch(0.5778728940922916 0.14377867454250337 247.35191350644294);
+        background-color: oklch(0.577931674636058 0.17972334317812919 247.35191350644294);
         &[class*="rounded-pixel-"] {
           background-color: transparent;
           &::after {
-            background-color: oklch(0.5778728940922916 0.14377867454250337 247.35191350644294);
+            background-color: oklch(0.577931674636058 0.17972334317812919 247.35191350644294);
           }
         }
       }
@@ -454,11 +478,11 @@
   .hover\:bg-pixel-balatro-orange-600 {
     &:hover {
       @media (hover: hover) {
-        background-color: oklch(0.6635517689899036 0.13621444508764144 69.80056091776714);
+        background-color: oklch(0.685030268258073 0.17026805635955178 69.80056091776714);
         &[class*="rounded-pixel-"] {
           background-color: transparent;
           &::after {
-            background-color: oklch(0.6635517689899036 0.13621444508764144 69.80056091776714);
+            background-color: oklch(0.685030268258073 0.17026805635955178 69.80056091776714);
           }
         }
       }
@@ -467,14 +491,26 @@
   .hover\:bg-pixel-balatro-red-600 {
     &:hover {
       @media (hover: hover) {
-        background-color: oklch(0.5889426977208554 0.15651727513347763 27.00209258244179);
+        background-color: oklch(0.5917689291717627 0.19564659391684702 27.00209258244179);
         &[class*="rounded-pixel-"] {
           background-color: transparent;
           &::after {
-            background-color: oklch(0.5889426977208554 0.15651727513347763 27.00209258244179);
+            background-color: oklch(0.5917689291717627 0.19564659391684702 27.00209258244179);
           }
         }
       }
+    }
+  }
+  .active\:translate-y-1 {
+    &:active {
+      --tw-translate-y: calc(var(--spacing) * 1);
+      translate: var(--tw-translate-x) var(--tw-translate-y);
+    }
+  }
+  .active\:drop-shadow-none {
+    &:active {
+      --tw-drop-shadow:  ;
+      filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
     }
   }
 }
@@ -489,6 +525,10 @@
   font-family: m6x11plus;
   font-display: swap;
   src: url("/fonts/m6x11plus.ttf") format("truetype");
+}
+* {
+  font-smooth: antialiased;
+  -webkit-font-smoothing: antialiased;
 }
 @property --tw-scale-x {
   syntax: "*";
@@ -651,6 +691,25 @@
   syntax: "*";
   inherits: false;
 }
+@property --tw-duration {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-translate-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-translate-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-translate-z {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
@@ -691,6 +750,10 @@
       --tw-drop-shadow-color: initial;
       --tw-drop-shadow-alpha: 100%;
       --tw-drop-shadow-size: initial;
+      --tw-duration: initial;
+      --tw-translate-x: 0;
+      --tw-translate-y: 0;
+      --tw-translate-z: 0;
     }
   }
 }

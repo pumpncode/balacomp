@@ -1,10 +1,13 @@
 import {
 	formatCss,
 	interpolate,
+	oklch,
 	unlerp
 } from "culori";
 
-const { floor } = Math;
+const {
+	min, max, floor
+} = Math;
 
 const baseColors = new Map(
 	[
@@ -27,12 +30,20 @@ for (const [name, baseColor] of baseColors) {
 	]
 		.map((value) => {
 			const variableName = `--color-balatro-${name}-${value}`;
+			const baseColorOklch = oklch(baseColor);
+
 			const color = formatCss(
 				interpolate(
 					[
-						"#eeeeee",
-						baseColor,
-						"#111111"
+						{
+							...baseColorOklch,
+							l: min(1, baseColorOklch.l + 0.5)
+						},
+						baseColorOklch,
+						{
+							...baseColorOklch,
+							l: max(0, baseColorOklch.l - 0.5)
+						}
 					],
 					"oklch"
 				)(unlerp(minValue, maxValue, value))
