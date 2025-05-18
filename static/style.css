@@ -9,43 +9,11 @@
 @source "../routes";
 
 @font-face {
-	font-family: Monaspace Argon;
-	font-style: normal;
-	font-weight: 200 800;
-	font-display: swap;
-	src: url("/fonts/MonaspaceArgonVarVF[wght,wdth,slnt].woff2") format("woff2");
-}
-
-@font-face {
-	font-family: Monaspace Krypton;
-	font-style: normal;
-	font-weight: 200 800;
-	font-display: swap;
-	src: url("/fonts/MonaspaceKryptonVarVF[wght,wdth,slnt].woff2") format("woff2");
-}
-
-@font-face {
 	font-family: Monaspace Neon;
 	font-style: normal;
 	font-weight: 200 800;
 	font-display: swap;
 	src: url("/fonts/MonaspaceNeonVarVF[wght,wdth,slnt].woff2") format("woff2");
-}
-
-@font-face {
-	font-family: Monaspace Radon;
-	font-style: normal;
-	font-weight: 200 800;
-	font-display: swap;
-	src: url("/fonts/MonaspaceRadonVarVF[wght,wdth,slnt].woff2") format("woff2");
-}
-
-@font-face {
-	font-family: Monaspace Xenon;
-	font-style: normal;
-	font-weight: 200 800;
-	font-display: swap;
-	src: url("/fonts/MonaspaceXenonVarVF[wght,wdth,slnt].woff2") format("woff2");
 }
 
 @font-face {
