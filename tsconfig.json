@@ -19,7 +19,9 @@
 		"noUnusedLocals": false,
 		"noUnusedParameters": false,
 		"strict": true,
-		"noEmit": true
+		"noEmit": true,
+		"strictNullChecks": true,
+		"strictPropertyInitialization": false
 	},
 	"include": [
 		"./**/*"

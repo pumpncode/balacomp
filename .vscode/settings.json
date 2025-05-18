@@ -1,4 +1,11 @@
 {
 	"deno.enable": true,
-	"deno.lint": false
+	"deno.lint": false,
+	"tailwindCSS.files.exclude": [
+		"**/.git/**",
+		"**/node_modules/**",
+		"**/.hg/**",
+		"**/.svn/**",
+		"**/style.compiled.css"
+	]
 }

@@ -5,14 +5,6 @@ const eslintConfig = [
 	{
 		rules: {
 			"@eslint-react/naming-convention/filename": "off",
-			"func-params-args/func-args": [
-				"warn",
-				{
-					global: 3,
-					join: -1,
-					reduce: 4
-				}
-			],
 			"import-x/no-namespace": "off",
 			"import-x/no-restricted-paths": "off",
 			"perfectionist/sort-classes": [

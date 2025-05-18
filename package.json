@@ -6,11 +6,17 @@
 	"license": "0BSD",
 	"description": "",
 	"devDependencies": {
-		"@pumpn/eslint-config": "^15.5.3",
+		"@pumpn/eslint-config": "^16.0.0",
+		"@tailwindcss/cli": "^4.1.6",
 		"@types/node": "^22.10.2",
-		"eslint": "9.14.0",
+		"@typescript-to-lua/language-extensions": "^1.19.0",
+		"eslint": "^9.26.0",
 		"knip": "^5.41.0",
-		"typescript": "^5.7.2"
+		"love-typescript-definitions": "^11.5.0",
+		"lua-types": "^2.13.1",
+		"tailwindcss": "^4.1.6",
+		"typescript": "^5.7.2",
+		"typescript-to-lua": "^1.31.0"
 	},
 	"type": "module"
 }

@@ -1,9 +1,15 @@
 {
 	"tasks": {
-		"initialize": "deno run -R -W --allow-run=npm ./scripts/initialize.js",
+		"dev-tailwind": "deno run -A --watch=static/,routes/ --watch-exclude=static/style.css npm:@tailwindcss/cli -i static/style.css -o static/style.compiled.css",
+		"dev": "deno run -A --watch=static/,routes/ --watch-exclude=static/style.compiled.css --env dev.js",
 		"upkeep": "deno run --allow-run=npx jsr:@pumpn/upkeep",
 		"lint": "npx eslint@9.14.0",
-		"start": "deno run --env main.js"
+		"start": "deno run --env main.js",
+		"build-mod": "tstl --project tsconfig.mod.json",
+		"watch-mod": "tstl --watch --project tsconfig.mod.json",
+		"build": "npx @tailwindcss/cli -i static/style.css -o static/style.compiled.css && deno run -A --env dev.js build",
+		"check": "deno fmt --check && deno lint && deno check **/*.js && deno check **/*.jsx",
+		"generate-colors": "deno run ./scripts/generate-colors.js"
 	},
 	"fmt": {
 		"options": {
@@ -15,14 +21,20 @@
 			"semiColons": true
 		}
 	},
+	"lint": {
+		"rules": {
+			"tags": [
+				"fresh",
+				"recommended"
+			]
+		}
+	},
 	"nodeModulesDir": "none",
 	"compilerOptions": {
 		"allowUnreachableCode": false,
 		"allowUnusedLabels": false,
 		"checkJs": true,
 		"exactOptionalPropertyTypes": true,
-		"jsx": "react-jsx",
-		"jsxImportSource": "preact",
 		"noErrorTruncation": true,
 		"noFallthroughCasesInSwitch": false,
 		"noImplicitAny": true,
@@ -38,17 +50,45 @@
 		"strictPropertyInitialization": false,
 		"lib": [
 			"dom",
-			"dom.iterable",
 			"dom.asynciterable",
+			"dom.iterable",
 			"deno.ns",
 			"deno.unstable"
+		],
+		"jsx": "precompile",
+		"jsxImportSource": "preact",
+		"jsxPrecompileSkipElements": [
+			"a",
+			"img",
+			"source",
+			"body",
+			"html",
+			"head"
 		]
 	},
 	"unstable": [
 		"temporal",
 		"kv"
 	],
+	"exclude": [
+		"**/_fresh/*"
+	],
 	"imports": {
-		"@std/path": "jsr:@std/path@^1.0.8"
+		"@preact/signals": "npm:@preact/signals@^2.0.4",
+		"@radashi-org/radashi": "jsr:@radashi-org/radashi@^13.0.0-beta.ffa4778",
+		"@std/http": "jsr:@std/http@^1.0.15",
+		"@std/path": "jsr:@std/path@^1.0.8",
+		"@tailwindcss/cli": "npm:@tailwindcss/cli@^4.1.6",
+		"@typescript-to-lua/language-extensions": "npm:@typescript-to-lua/language-extensions@^1.19.0",
+		"clsx": "npm:clsx@^2.1.1",
+		"culori": "npm:culori@^4.0.1",
+		"fresh": "jsr:@unabbreviated-fresh/core@^2.0.0-alpha.34",
+		"love-typescript-definitions": "npm:love-typescript-definitions@^11.5.0",
+		"lua-types": "npm:lua-types@^2.13.1",
+		"preact": "npm:preact@^10.26.6",
+		"tailwindcss": "npm:tailwindcss@^4.1.6",
+		"typescript-to-lua": "npm:typescript-to-lua@^1.31.0",
+		"usehooks-ts": "npm:usehooks-ts@^3.1.1",
+		"valibot": "npm:valibot@^1.1.0"
 	}
 }

@@ -1,11 +1,24 @@
-/**
- *
- * @example
- */
-const helloWorld = () => {
-	console.info("Hello World!");
-};
+import {
+	App,
+	fsRoutes,
+	staticFiles,
+	trailingSlashes
+} from "fresh";
 
-helloWorld();
+const app = new App();
 
-export default helloWorld;
+app
+	.use(staticFiles())
+	.use(trailingSlashes("never"));
+
+await fsRoutes(app, {
+	dir: "./",
+	loadIsland: (path) => import(`./islands/${path}`),
+	loadRoute: (path) => import(`./routes/${path}`)
+});
+
+if (import.meta.main) {
+	await app.listen();
+}
+
+export { app };

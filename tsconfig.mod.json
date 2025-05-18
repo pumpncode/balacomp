@@ -1,0 +1,42 @@
+{
+	"$schema": "https://raw.githubusercontent.com/TypeScriptToLua/TypeScriptToLua/master/tsconfig-schema.json",
+	"compilerOptions": {
+		"target": "ESNext",
+		"lib": [
+			"ESNext"
+		],
+		"types": [
+			"@typescript-to-lua/language-extensions",
+			"lua-types/5.4",
+			"love-typescript-definitions",
+			"./types/smods.d.ts",
+			"./types/balatro.d.ts",
+			"./types/socket.d.ts"
+		],
+		"allowJs": false,
+		"moduleResolution": "Node",
+		"allowUnreachableCode": false,
+		"allowUnusedLabels": false,
+		"alwaysStrict": true,
+		"checkJs": false,
+		"exactOptionalPropertyTypes": true,
+		"noErrorTruncation": true,
+		"noFallthroughCasesInSwitch": false,
+		"noImplicitAny": true,
+		"noImplicitOverride": true,
+		"noImplicitReturns": true,
+		"allowSyntheticDefaultImports": true,
+		"noPropertyAccessFromIndexSignature": false,
+		"noUncheckedIndexedAccess": false,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"strict": true
+	},
+	"tstl": {
+		"luaTarget": "5.1",
+		"noHeader": true,
+		"luaLibImport": "require",
+		"luaBundle": "mod.lua",
+		"luaBundleEntry": "mod.ts"
+	}
+}
