@@ -13,7 +13,7 @@ balatro companion (WIP)
 - [Aurelius7309](https://github.com/Aurelius7309) and [contributors](https://github.com/Steamodded/smods/graphs/contributors)
 	- Authors of [Steamodded](https://github.com/Steamodded/smods), the modding framework used here.
 - [Daniel Linssen](https://managore.itch.io)
-	- Designer of [m6x11](https://managore.itch.io/m6x11), the font used extensively in the UI.
+	- Designer of [m6x11](https://managore.itch.io/m6x11), the font used extensively in the web app.
 - [rxi](https://github.com/rxi)
 	- Author of [json.lua](https://github.com/rxi/json.lua), used for JSON parsing and stringification.
 - [phughesion](https://github.com/phughesion) and [contributors](https://github.com/besteon/balatrobot/graphs/contributors)
@@ -22,6 +22,8 @@ balatro companion (WIP)
 	- Authors of [TypeScriptToLua](https://typescripttolua.github.io), used for compiling TypeScript into Lua.
 - [juliencrn](https://github.com/juliencrn) and [contributors](https://github.com/juliencrn/usehooks-ts/graphs/contributors)
 	- Authors of [usehooks-ts](https://usehooks-ts.com), used in the frontend logic.
+- [Luke Bonaccorsi](https://codefoodpixels.com/)
+	- Author of [Pixelated Rounded Corners Generator](https://pixelcorners.lukeb.co.uk/?radius=8&multiplier=4), used for generating the rounded corners in the UI.
 - [Aseprite](https://www.aseprite.org)
 	- Pixel art editor used for designing the balacomp logo.
 - [Astropulse](https://github.com/Astropulse)
