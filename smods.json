@@ -1,0 +1,12 @@
+{
+	"id": "balacomp",
+	"name": "balacomp",
+	"author": [
+		"nnmrts",
+		"GayCoonie"
+	],
+	"description": "balatro companion",
+	"prefix": "balacomp",
+	"main_file": "mod/mod.lua",
+	"version": "0.1.0"
+}

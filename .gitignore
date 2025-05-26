@@ -474,3 +474,5 @@ xcuserdata/
 
 /node_modules
 .env
+
+/_fresh

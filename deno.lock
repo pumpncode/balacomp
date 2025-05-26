@@ -1,17 +1,26 @@
 {
   "version": "5",
   "specifiers": {
+    "jsr:@cliffy/ansi@^1.0.0-rc.7": "1.0.0-rc.7",
+    "jsr:@cliffy/internal@1.0.0-rc.7": "1.0.0-rc.7",
+    "jsr:@deno/kv-utils@~0.1.3": "0.1.3",
+    "jsr:@kitsonk/kv-toolbox@0.28": "0.28.0",
     "jsr:@luca/esbuild-deno-loader@0.11": "0.11.1",
     "jsr:@radashi-org/radashi@^13.0.0-beta.ffa4778": "13.0.0-beta.ffa4778",
+    "jsr:@std/assert@1": "1.0.13",
+    "jsr:@std/bytes@1": "1.0.6",
     "jsr:@std/bytes@^1.0.2": "1.0.6",
+    "jsr:@std/bytes@^1.0.3": "1.0.6",
     "jsr:@std/cli@^1.0.17": "1.0.17",
     "jsr:@std/crypto@1": "1.0.5",
     "jsr:@std/datetime@~0.225.2": "0.225.4",
     "jsr:@std/encoding@1": "1.0.10",
     "jsr:@std/encoding@^1.0.10": "1.0.10",
     "jsr:@std/encoding@^1.0.5": "1.0.10",
+    "jsr:@std/encoding@~1.0.5": "1.0.10",
     "jsr:@std/fmt@1": "1.0.8",
     "jsr:@std/fmt@^1.0.8": "1.0.8",
+    "jsr:@std/fmt@~1.0.2": "1.0.8",
     "jsr:@std/fs@1": "1.0.17",
     "jsr:@std/html@1": "1.0.4",
     "jsr:@std/html@^1.0.4": "1.0.4",
@@ -22,6 +31,7 @@
     "jsr:@std/net@^1.0.4": "1.0.4",
     "jsr:@std/path@1": "1.0.9",
     "jsr:@std/path@^1.0.6": "1.0.9",
+    "jsr:@std/path@^1.0.8": "1.0.9",
     "jsr:@std/path@^1.0.9": "1.0.9",
     "jsr:@std/semver@1": "1.0.5",
     "jsr:@std/streams@^1.0.9": "1.0.9",
@@ -30,6 +40,7 @@
     "npm:@preact/signals@^2.0.4": "2.0.4_preact@10.26.6",
     "npm:@tailwindcss/cli@*": "4.1.7",
     "npm:@tailwindcss/cli@^4.1.6": "4.1.7",
+    "npm:@types/node@*": "22.15.15",
     "npm:@typescript-to-lua/language-extensions@^1.19.0": "1.19.0",
     "npm:clsx@^2.1.1": "2.1.1",
     "npm:culori@^4.0.1": "4.0.1",
@@ -40,21 +51,56 @@
     "npm:preact-render-to-string@^6.5.11": "6.5.13_preact@10.26.6",
     "npm:preact@^10.26.6": "10.26.6",
     "npm:tailwindcss@^4.1.6": "4.1.7",
+    "npm:typescript-to-lua@*": "1.31.0_typescript@5.8.2",
+    "npm:typescript-to-lua@1.31.0": "1.31.0_typescript@5.8.2",
     "npm:typescript-to-lua@^1.31.0": "1.31.0_typescript@5.8.2",
+    "npm:typescript@^5.8.3": "5.8.3",
     "npm:usehooks-ts@^3.1.1": "3.1.1_react@19.1.0",
     "npm:valibot@^1.1.0": "1.1.0"
   },
   "jsr": {
+    "@cliffy/ansi@1.0.0-rc.7": {
+      "integrity": "f71c921cce224c13d322e5cedba4f38e8f7354c7d855c9cb22729362a53f25aa",
+      "dependencies": [
+        "jsr:@cliffy/internal",
+        "jsr:@std/encoding@~1.0.5",
+        "jsr:@std/fmt@~1.0.2"
+      ]
+    },
+    "@cliffy/internal@1.0.0-rc.7": {
+      "integrity": "10412636ab3e67517d448be9eaab1b70c88eba9be22617b5d146257a11cc9b17"
+    },
+    "@deno/kv-utils@0.1.3": {
+      "integrity": "f3877510f82ce78a1946f6fc9727393d44421928c971572c18d90f9206448e98",
+      "dependencies": [
+        "jsr:@std/bytes@^1.0.3",
+        "jsr:@std/encoding@^1.0.5"
+      ]
+    },
+    "@kitsonk/kv-toolbox@0.28.0": {
+      "integrity": "f7e3103a36ed169022569d5315526c942eae72365fd849e0ebe84b6991f8d636",
+      "dependencies": [
+        "jsr:@deno/kv-utils",
+        "jsr:@std/assert",
+        "jsr:@std/bytes@1",
+        "jsr:@std/crypto",
+        "jsr:@std/encoding@1",
+        "jsr:@std/media-types@1"
+      ]
+    },
     "@luca/esbuild-deno-loader@0.11.1": {
       "integrity": "dc020d16d75b591f679f6b9288b10f38bdb4f24345edb2f5732affa1d9885267",
       "dependencies": [
-        "jsr:@std/bytes",
+        "jsr:@std/bytes@^1.0.2",
         "jsr:@std/encoding@^1.0.5",
         "jsr:@std/path@^1.0.6"
       ]
     },
     "@radashi-org/radashi@13.0.0-beta.ffa4778": {
       "integrity": "922650ca6a7e20163a451865be3b2f42e7e6f5d1a039ce8f1f87c609a0a78458"
+    },
+    "@std/assert@1.0.13": {
+      "integrity": "ae0d31e41919b12c656c742b22522c32fb26ed0cba32975cb0de2a273cb68b29"
     },
     "@std/bytes@1.0.6": {
       "integrity": "f6ac6adbd8ccd99314045f5703e23af0a68d7f7e58364b47d2c7f408aeb5820a"
@@ -546,6 +592,12 @@
         "tslib"
       ]
     },
+    "@types/node@22.15.15": {
+      "integrity": "sha512-R5muMcZob3/Jjchn5LcO8jdKwSCbzqmPB6ruBxMcf9kbxtniZHP327s6C37iOfuw8mbKK3cAQa7sEl7afLrQ8A==",
+      "dependencies": [
+        "undici-types"
+      ]
+    },
     "@typescript-to-lua/language-extensions@1.19.0": {
       "integrity": "sha512-Os5wOKwviTD4LeqI29N0btYOjokSJ97iCf45EOjIABlb5IwNQy7AE/AqZJobRw3ywHH8+KzJUMkEirWPzh2tUA=="
     },
@@ -842,13 +894,20 @@
         "picomatch",
         "resolve",
         "source-map",
-        "typescript"
+        "typescript@5.8.2"
       ],
       "bin": true
     },
     "typescript@5.8.2": {
       "integrity": "sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ==",
       "bin": true
+    },
+    "typescript@5.8.3": {
+      "integrity": "sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==",
+      "bin": true
+    },
+    "undici-types@6.21.0": {
+      "integrity": "sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ=="
     },
     "usehooks-ts@3.1.1_react@19.1.0": {
       "integrity": "sha512-I4diPp9Cq6ieSUH2wu+fDAVQO43xwtulo+fKEidHUwZPnYImbtkTjzIJYcDcJqxgmX31GVqNFURodvcgHcW0pA==",
@@ -864,8 +923,29 @@
       "integrity": "sha512-YgvUTfwqyc7UXVMrB+SImsVYSmTS8X/tSrtdNZMImM+n7+QTriRXyXim0mBrTXNeqzVF0KWGgHPeiyViFFrNDw=="
     }
   },
+  "redirects": {
+    "https://esm.sh/@types/react-dom@~19.0.4/index.d.ts": "https://esm.sh/@types/react-dom@19.0.6/index.d.ts",
+    "https://esm.sh/@types/react@~19.0.12/index.d.ts": "https://esm.sh/@types/react@19.0.14/index.d.ts",
+    "https://esm.sh/@types/react@~19.1.4/index.d.ts": "https://esm.sh/@types/react@19.1.4/index.d.ts",
+    "https://esm.sh/react-dom?target=denonext": "https://esm.sh/react-dom@19.1.0?target=denonext",
+    "https://esm.sh/react-use-websocket@^4.13.0": "https://esm.sh/react-use-websocket@4.13.0",
+    "https://esm.sh/react-use-websocket@^4.13.0?external=react,react-dom": "https://esm.sh/react-use-websocket@4.13.0?external=react,react-dom",
+    "https://esm.sh/react?target=denonext": "https://esm.sh/react@19.1.0?target=denonext"
+  },
+  "remote": {
+    "https://esm.sh/react-dom@19.1.0/denonext/react-dom.mjs": "34f13de407660b571cc98e6902abc6aded524314c56c77a1ee7527b4f501f727",
+    "https://esm.sh/react-dom@19.1.0?target=denonext": "0af10bc13bc7ef60cd74313dc427d357184e28c86cc878340add5cde7ba00120",
+    "https://esm.sh/react-use-websocket@4.13.0": "6fed94c6fbec02945bb385228b47a6dd0cab03815c7818f251ee519522679e61",
+    "https://esm.sh/react-use-websocket@4.13.0/X-ZXJlYWN0LHJlYWN0LWRvbQ/denonext/react-use-websocket.mjs": "0786d77245c04bde63b1b34d50ba029edea6aba606402e3dc76d5fe0f705ee70",
+    "https://esm.sh/react-use-websocket@4.13.0/denonext/react-use-websocket.mjs": "4c9150e056ef9c86fd5a71baee5c0406b875abeaf4e5cd0e5fc87b28f4a07fb6",
+    "https://esm.sh/react-use-websocket@4.13.0?external=react,react-dom": "ee30f6beffc6dfdeeefec84e480bb61e941737a3bae33ae057d5f94d8d66c9c7",
+    "https://esm.sh/react@19.1.0/denonext/react.mjs": "b43f435068776ab7a40daea8854ab1f8eca6252e86a9ac8b716bb9110ffeb76e",
+    "https://esm.sh/react@19.1.0?target=denonext": "8cb1e2ba1aeb012dc6807c8b3cf6ae90579b448317c9debc9d888dcabc246e66"
+  },
   "workspace": {
     "dependencies": [
+      "jsr:@cliffy/ansi@^1.0.0-rc.7",
+      "jsr:@kitsonk/kv-toolbox@0.28",
       "jsr:@radashi-org/radashi@^13.0.0-beta.ffa4778",
       "jsr:@std/http@^1.0.15",
       "jsr:@std/path@^1.0.8",
@@ -880,6 +960,7 @@
       "npm:preact@^10.26.6",
       "npm:tailwindcss@^4.1.6",
       "npm:typescript-to-lua@^1.31.0",
+      "npm:typescript@^5.8.3",
       "npm:usehooks-ts@^3.1.1",
       "npm:valibot@^1.1.0"
     ]

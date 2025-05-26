@@ -3,40 +3,18 @@ import pumpnEslintConfig from "@pumpn/eslint-config";
 const eslintConfig = [
 	...pumpnEslintConfig,
 	{
+		files: [
+			"**/*.js",
+			"**/*.jsx",
+			"**/*.ts",
+			"**/*.tsx"
+		],
 		rules: {
 			"@eslint-react/naming-convention/filename": "off",
+			"@eslint-react/prefer-read-only-props": "off",
+			"import-x/no-cycle": "off",
 			"import-x/no-namespace": "off",
 			"import-x/no-restricted-paths": "off",
-			"perfectionist/sort-classes": [
-				"error",
-				{
-					groups: [
-						"index-signature",
-						["private-static-property", "private-static-accessor-property"],
-						["private-static-get-method", "private-static-set-method"],
-						["static-property", "static-accessor-property"],
-						["static-get-method", "static-set-method"],
-						["protected-static-property", "protected-static-accessor-property"],
-						["protected-static-get-method", "protected-static-set-method"],
-						"static-block",
-						["property", "accessor-property"],
-						["get-method", "set-method"],
-						["protected-property", "protected-accessor-property"],
-						["protected-get-method", "protected-set-method"],
-						["private-property", "private-accessor-property"],
-						["private-get-method", "private-set-method"],
-						"constructor",
-						["static-method", "static-function-property"],
-						["protected-static-method", "protected-static-function-property"],
-						["private-static-method", "private-static-function-property"],
-						["method", "function-property"],
-						["protected-method", "protected-function-property"],
-						["private-method", "private-function-property"],
-						"unknown"
-					],
-					partitionByComment: String.raw`\/\/`
-				}
-			],
 			"regexp/require-unicode-sets-regexp": "error",
 			"security/detect-non-literal-regexp": "off",
 			"security/detect-possible-timing-attacks": "off",
@@ -60,6 +38,31 @@ const eslintConfig = [
 		files: ["dev.js"],
 		rules: {
 			"unicorn/prevent-abbreviations": "off"
+		}
+	},
+	{
+		files: ["**/*.ts"],
+		rules: {
+			camelcase: "off",
+			"consistent-return": "off",
+			"jsdoc/check-tag-names": "off",
+			"jsdoc/require-example": "off",
+			"jsdoc/require-param-type": "off",
+			"jsdoc/require-returns": "off"
+		}
+	},
+	{
+		files: ["**/*.d.ts"],
+		rules: {
+			"no-unused-vars": "off"
+		}
+	},
+	{
+		files: ["**/_exports.?(*.)ts"],
+		rules: {
+			"@eslint-react/naming-convention/filename": "off",
+			"import-x/max-dependencies": "off",
+			"import-x/prefer-default-export": "off"
 		}
 	},
 	{

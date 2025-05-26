@@ -10,10 +10,12 @@ import { h } from "preact";
  * @param props0.as - The root object
  * @param props0.size - The root object
  * @param props0.disabled - The root object
+ * @param props0.badgeContent - The root object
  * @example
  */
 const Button = ({
 	as = "button",
+	badgeContent,
 	children,
 	className = "",
 	color = "red",
@@ -37,7 +39,20 @@ const Button = ({
 		),
 		...rest
 	},
-	<span className="text-shadow-elevated">{children}</span>
+	<>
+		<span className="text-shadow-elevated">{children}</span>
+
+		{
+			badgeContent === undefined
+				? null
+				: (
+					<div className="rounded-pixel-2-2 bg-pixel-white drop-shadow-dynamic py-0.75 leading-3.25 text-balatro-gray-500 absolute -right-2 -top-2 flex items-center justify-center px-1 text-lg">
+						<span className="text-shadow-elevated">{badgeContent}</span>
+					</div>
+				)
+		}
+
+	</>
 );
 
 export default Button;

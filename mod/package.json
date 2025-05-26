@@ -1,0 +1,13 @@
+{
+	"author": "",
+	"license": "0BSD",
+	"description": "",
+	"devDependencies": {
+		"@typescript-to-lua/language-extensions": "^1.19.0",
+		"love-typescript-definitions": "^11.5.0",
+		"lua-types": "^2.13.1",
+		"typescript": "^5.7.2",
+		"typescript-to-lua": "^1.31.0"
+	},
+	"type": "module"
+}

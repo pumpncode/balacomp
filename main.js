@@ -5,6 +5,10 @@ import {
 	trailingSlashes
 } from "fresh";
 
+import { serverSocket } from "./_common/_exports.js";
+
+serverSocket.listen();
+
 const app = new App();
 
 app

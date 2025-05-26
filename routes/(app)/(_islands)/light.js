@@ -6,11 +6,15 @@ import { useScreen, useWindowSize } from "./light/_exports.js";
  *
  * @example
  */
-const LightSource = () => {
+const Light = () => {
 	const screen = useScreen();
 	const { height = 0, width = 0 } = useWindowSize();
 
-	useEffect(() => {
+	/**
+	 *
+	 * @example
+	 */
+	const updateShadows = () => {
 		const dynamicShadowElements = /** @type {(HTMLElement|SVGElement|MathMLElement)[]} */ (
 			[...document.querySelectorAll("[class~=\"drop-shadow-dynamic\"]")]
 		);
@@ -19,9 +23,7 @@ const LightSource = () => {
 
 		for (const shadowElement of dynamicShadowElements) {
 			const { left, right } = shadowElement.getBoundingClientRect();
-
 			const center = (left + right) / 2;
-
 			const x = offset - ((2 * offset * center) / width);
 
 			shadowElement.style.setProperty("--shadow-x", `${x}px`);
@@ -34,6 +36,41 @@ const LightSource = () => {
 		for (const shadowElement of elevatedShadowElements) {
 			shadowElement.style.setProperty("--text-shadow-elevated-content", `"${shadowElement.textContent}"`);
 		}
+	};
+
+	useEffect(() => {
+		updateShadows();
+
+		// Setup MutationObserver
+		const observer = new MutationObserver(
+
+			/**
+			 *
+			 * @param mutationsList
+			 * @example
+			 */
+			(mutationsList) => {
+			// Recompute shadows on *any* DOM change
+				updateShadows();
+			}
+		);
+
+		observer.observe(document.body, {
+			attributes: true,
+			characterData: true,
+			childList: true,
+			subtree: true
+		});
+
+		/**
+		 * Cleanup
+		 */
+
+		/**
+		 *
+		 * @example
+		 */
+		return () => observer.disconnect();
 	}, [
 		screen,
 		height,
@@ -43,4 +80,4 @@ const LightSource = () => {
 	return null;
 };
 
-export default LightSource;
+export default Light;

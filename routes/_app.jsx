@@ -3,7 +3,7 @@
  * @import { JSX } from "preact";
  */
 
-import LightSource from "./(app)/(_islands)/light.js";
+import { Light } from "./(app)/(_islands)/_exports.js";
 
 /**
  * @param {PageProps} props - The root object
@@ -39,7 +39,7 @@ const App = ({ Component }) => (
 		<body className="bg-balatro-gray-700 flex min-h-full flex-col justify-stretch p-8">
 			<Component />
 
-			<LightSource />
+			<Light />
 		</body>
 	</html>
 );

@@ -22,8 +22,5 @@
 		"noEmit": true,
 		"strictNullChecks": true,
 		"strictPropertyInitialization": false
-	},
-	"include": [
-		"./**/*"
-	]
+	}
 }

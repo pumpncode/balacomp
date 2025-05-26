@@ -1,0 +1,10 @@
+{
+	"$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
+	"workspace.library": [
+		"../smods",
+		"/Users/$USER/Library/Application Support/Steam/steamapps/common/Balatro/Balatro.app/Contents/Resources/Balatro"
+	],
+	"runtime.version": "LuaJIT",
+	"indent_style": "tab",
+	"indent_size": "1"
+}
