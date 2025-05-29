@@ -131,7 +131,7 @@ export interface Game extends LuaObject {
 	MIN_HOVER_TIME: number,
 	MOVEABLES: Moveable[],
 	OVERLAY_MENU?: UIBox,
-	P_BLINDS?: Record<string, any>,
+	P_BLINDS: Record<string, any>,
 	P_CARDS: Record<string, any>,
 	P_CENTER_POOLS?: {
 		Back?: Record<string, any>[],

@@ -3,16 +3,13 @@ import { processModIcon } from "./process-mod/_exports.ts";
 
 /**
  *
- * @param sets
  * @param mod
  * @noSelf
  * @example
  */
-const processMod = (sets: any, mod: any) => {
-	const item: any = {};
-
+const processMod = (mod: any) => {
 	if (mod.name && mod.id) {
-		sets.Mods[mod.id] = {
+		return {
 			id: mod.id,
 			badge_colour: convertToHex(mod.badge_colour),
 			badge_text_colour: convertToHex(mod.badge_text_colour),

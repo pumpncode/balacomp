@@ -1,6 +1,8 @@
 import {
 	Atlas as AtlasType,
 	Joker as JokerType,
+	Seal as SealType,
+	Stake as StakeType,
 	Suit as SuitType
 } from "./smods/_exports.js";
 
@@ -20,7 +22,7 @@ type Mod = {
 	display_name?: string,
 	dump_loc?: true,
 	extra_tabs?: () => Record<string, any>[],
-	id?: string,
+	id: string,
 	main_file?: string,
 	meta_mod?: true,
 	name?: string,
@@ -49,6 +51,8 @@ declare global {
 
 		const Joker: JokerType;
 		const Atlas: AtlasType;
+		const Seal: SealType;
+		const Stake: StakeType;
 		const Suit: SuitType;
 
 		const modify_rank: (card: any, rank: number) => boolean;

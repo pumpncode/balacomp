@@ -5,12 +5,11 @@ import {
 
 /**
  *
- * @param sets
  * @param card
  * @noSelf
  * @example
  */
-const processEnhancement = (sets: any, card: typeof CardType) => {
+const processEnhancement = (card: typeof CardType) => {
 	const item: any = {};
 	const { center } = card.config;
 
@@ -41,10 +40,7 @@ const processEnhancement = (sets: any, card: typeof CardType) => {
 	item.image_url = `images/${center.key.replace("?", "_")}.png`;
 
 	if (item.name !== undefined) {
-		if (!sets[item.set]) {
-			sets[item.set] = {};
-		}
-		sets[item.set][item.key] = item;
+		return item;
 	}
 };
 

@@ -11,7 +11,7 @@ import {
  * @noSelf
  * @example
  */
-const processTag = (sets: any, tag: typeof TagType) => {
+const processTag = (tag: typeof TagType) => {
 	const item: any = {};
 
 	tag.set ??= "Tag";
@@ -35,9 +35,7 @@ const processTag = (sets: any, tag: typeof TagType) => {
 
 	item.image_url = `images/${tag.key.replace("?", "_")}.png`;
 	if (item.name) {
-		sets.Tag ??= {};
-
-		sets.Tag[item.key] = item;
+		return item;
 	}
 };
 

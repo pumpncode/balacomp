@@ -37,13 +37,13 @@ const handler = define.handlers({
 
 		console.log(JSON.stringify(mods));
 
-		const editionEntries = await Array.fromAsync(kv.list({ prefix: ["content", "Edition"] }));
+		const stakeEntries = await Array.fromAsync(kv.list({ prefix: ["content", "Stake"] }));
 
-		const editions = editionEntries
+		const stakes = stakeEntries
 			.map(({ value }) => value)
 			.toSorted(({ name: nameA }, { name: nameB }) => nameA.localeCompare(nameB, "en", { numeric: true }));
 
-		console.log(JSON.stringify(editions));
+		console.log(JSON.stringify(stakes));
 
 		return page({
 			counts: countsObject,
@@ -72,6 +72,7 @@ const Home = define.page(({ data: { counts, mods } }) => (
 				<MainButtons />
 
 			</div>
+
 
 			<SetButtons {...{ counts }} />
 

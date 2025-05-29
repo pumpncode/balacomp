@@ -2,7 +2,7 @@ import { openKvToolbox } from "@kitsonk/kv-toolbox";
 
 const kv = await openKvToolbox();
 
-const reset = true;
+const reset = false;
 
 if (reset) {
 	for await (const { key } of kv.list({ prefix: [] })) {

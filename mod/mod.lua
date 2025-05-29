@@ -1077,10 +1077,10 @@ ____modules = {
 						elseif desc == true then
 							local value = rawget(target, key)
 							local descriptor = __TS__ObjectGetOwnPropertyDescriptor(target, key) or
-								({ configurable = true, writable = true, value = value })
+							({ configurable = true, writable = true, value = value })
 							local desc = decorator(nil, target, key, descriptor) or descriptor
 							local isSimpleValue = desc.configurable == true and desc.writable == true and not desc.get and
-								not desc.set
+							not desc.set
 							if isSimpleValue then
 								rawset(target, key, desc.value)
 							else
@@ -1590,15 +1590,15 @@ ____modules = {
 					if hexMatch ~= nil then
 						base = 16
 						numberString = (__TS__Match(hexMatch, "-")) and
-							"-" .. __TS__StringSubstring(numberString, #hexMatch) or
-							__TS__StringSubstring(numberString, #hexMatch)
+						"-" .. __TS__StringSubstring(numberString, #hexMatch) or
+						__TS__StringSubstring(numberString, #hexMatch)
 					end
 				end
 				if base < 2 or base > 36 then
 					return 0 / 0
 				end
 				local allowedDigits = base <= 10 and __TS__StringSubstring(parseIntBasePattern, 0, base) or
-					__TS__StringSubstring(parseIntBasePattern, 0, 10 + 2 * (base - 10))
+				__TS__StringSubstring(parseIntBasePattern, 0, 10 + 2 * (base - 10))
 				local pattern = ("^%s*(-?[" .. allowedDigits) .. "]*)"
 				local number = tonumber((__TS__Match(numberString, pattern)), base)
 				if number == nil then
@@ -2458,7 +2458,7 @@ ____modules = {
 				end
 				local before = sub(source, 1, startPos - 1)
 				local replacement = type(replaceValue) == "string" and replaceValue or
-					replaceValue(nil, searchValue, startPos - 1, source)
+				replaceValue(nil, searchValue, startPos - 1, source)
 				local after = sub(source, endPos + 1)
 				return (before .. replacement) .. after
 			end
@@ -2895,29 +2895,6 @@ ____modules = {
 		end
 		return ____exports
 	end,
-	["library.server.handle-message.exporter.filter-list-from-string"] = function(...)
-		local ____lualib = require("lualib_bundle")
-		local __TS__StringTrim = ____lualib.__TS__StringTrim
-		local __TS__StringReplaceAll = ____lualib.__TS__StringReplaceAll
-		local __TS__StringSplit = ____lualib.__TS__StringSplit
-		local __TS__ArrayMap = ____lualib.__TS__ArrayMap
-		local ____exports = {}
-		---
-		-- @param string
-		-- @noSelf
-		-- @example
-		local function filterListFromString(____string)
-			return __TS__ArrayMap(
-				__TS__StringSplit(
-					__TS__StringReplaceAll(____string, " ", ""),
-					","
-				),
-				function(____, item) return __TS__StringTrim(item) end
-			)
-		end
-		____exports.default = filterListFromString
-		return ____exports
-	end,
 	["library.server.handle-message.exporter._common.convert-to-hex"] = function(...)
 		local ____lualib = require("lualib_bundle")
 		local __TS__NumberToString = ____lualib.__TS__NumberToString
@@ -3030,12 +3007,20 @@ ____modules = {
 	["library.server.handle-message.exporter._common.output-image"] = function(...)
 		local ____lualib = require("lualib_bundle")
 		local __TS__ArrayFind = ____lualib.__TS__ArrayFind
-		local __TS__StringReplaceAll = ____lualib.__TS__StringReplaceAll
+		local Error = ____lualib.Error
+		local RangeError = ____lualib.RangeError
+		local ReferenceError = ____lualib.ReferenceError
+		local SyntaxError = ____lualib.SyntaxError
+		local TypeError = ____lualib.TypeError
+		local URIError = ____lualib.URIError
+		local __TS__New = ____lualib.__TS__New
 		local __TS__ArrayEntries = ____lualib.__TS__ArrayEntries
 		local __TS__Iterator = ____lualib.__TS__Iterator
+		local __TS__StringReplaceAll = ____lualib.__TS__StringReplaceAll
 		local ____exports = {}
 		local ____output_root_2Ets = require("library.server.handle-message._common.output_root")
 		local output_root = ____output_root_2Ets.default
+		local imagesFolderPath = output_root .. "images/"
 		local outputImages = true
 		local COLOR_WHITE = 255
 		--- Creates animation frames from a single row in the atlas.
@@ -3088,30 +3073,42 @@ ____modules = {
 		local function ensureAtlasImageData(card, ____bindingPattern0)
 			local atlasGroup
 			atlasGroup = ____bindingPattern0.atlasGroup
-			if outputImages and (atlasGroup and atlasGroup[card.atlas]) and atlasGroup[card.atlas].image_data == nil then
+			if outputImages and card.atlas and (atlasGroup and atlasGroup[card.atlas]) and atlasGroup[card.atlas].image_data == nil then
 				local ____TS__ArrayFind_result_2 = __TS__ArrayFind(
 					G.asset_atli,
-					function(____, item)
-						return item.name == card.set or item.name == "tags" and card.set == "Tag" or
-							item.name == "centers" and card.set == "Enhanced" or
-							item.name == "blind_chips" and card.set == "Blind" or
-							item.name == "cards_1" and card.atlas == "cards_1"
-					end
+					function(____, item) return item.name == card.set or item.name == "tags" and card.set == "Tag" or
+						item.name == "centers" and card.set == "Enhanced" or
+						item.name == "centers" and card.set == "Back" or
+						item.name == "blind_chips" and card.set == "Blind" or
+						item.name == "chips" and card.set == "Stake" or item.name == "Tarot" and card.set == "Spectral" or
+						item.name == "Tarot" and card.set == "Planet" or
+						item.name == "cards_1" and card.atlas == "cards_1" end
 				)
 				if ____TS__ArrayFind_result_2 == nil then
 					____TS__ArrayFind_result_2 = __TS__ArrayFind(
 						G.animation_atli,
-						function(____, item)
-							return item.name == card.set or item.name == "tags" and card.set == "Tag" or
-								item.name == "centers" and card.set == "Enhanced" or
-								item.name == "blind_chips" and card.set == "Blind" or
-								item.name == "cards_1" and card.atlas == "cards_1"
-						end
+						function(____, item) return item.name == card.set or item.name == "tags" and card.set == "Tag" or
+							item.name == "centers" and card.set == "Enhanced" or
+							item.name == "centers" and card.set == "Back" or
+							item.name == "blind_chips" and card.set == "Blind" or
+							item.name == "chips" and card.set == "Stake" or
+							item.name == "Tarot" and card.set == "Spectral" or
+							item.name == "Tarot" and card.set == "Planet" or
+							item.name == "cards_1" and card.atlas == "cards_1" end
 					)
 				end
 				local atlasItem = ____TS__ArrayFind_result_2
 				if atlasItem == nil then
 					print("Atlas item not found for card: " .. card.key)
+					print((("Looking for atlas with name: " .. tostring(card.set)) .. " or ") .. card.atlas)
+					print("Available asset_atli names:")
+					for ____, item in ipairs(G.asset_atli) do
+						print("  - " .. tostring(item.name))
+					end
+					print("Available animation_atli names:")
+					for ____, item in ipairs(G.animation_atli) do
+						print("  - " .. tostring(item.name))
+					end
 					print(tprint(card))
 					return
 				end
@@ -3128,21 +3125,34 @@ ____modules = {
 			local atlasGroup
 			atlasGroup = ____bindingPattern0.atlasGroup
 			ensureAtlasImageData(card, { atlasGroup = atlasGroup })
-			local ____opt_3 = atlasGroup and atlasGroup[card.atlas]
-			if ____opt_3 ~= nil then
-				____opt_3 = ____opt_3.image_data
+			local ____card_atlas_7
+			if card.atlas then
+				local ____opt_3 = atlasGroup and atlasGroup[card.atlas]
+				if ____opt_3 ~= nil then
+					____opt_3 = ____opt_3.image_data
+				end
+				____card_atlas_7 = ____opt_3
+			else
+				____card_atlas_7 = nil
 			end
-			return ____opt_3
+			return ____card_atlas_7
 		end
 		--- Calculates the logical and region dimensions for the given card.
 		--
 		-- @param card - The card object for which to calculate dimensions.
 		-- @param options0 - The root object
 		-- @param options0.atlasGroup - The root object
+		-- @throws Error when card.atlas is undefined
 		-- @noSelf
 		local function getLogicalAndRegion(card, ____bindingPattern0)
 			local atlasGroup
 			atlasGroup = ____bindingPattern0.atlasGroup
+			if not card.atlas then
+				error(
+					__TS__New(Error, "Card atlas is undefined for card: " .. card.key),
+					0
+				)
+			end
 			local atlasScale = G.SETTINGS.GRAPHICS.texture_scaling
 			local logicalW = atlasGroup[card.atlas].px
 			local logicalH = atlasGroup[card.atlas].py
@@ -3191,8 +3201,8 @@ ____modules = {
 		-- @param regionH - The height of the region to extract.
 		-- @noSelf
 		local function createExtraData(card, atlasData, regionW, regionH)
-			local ____opt_7 = card.soul_pos
-			if ____opt_7 and ____opt_7.extra then
+			local ____opt_8 = card.soul_pos
+			if ____opt_8 and ____opt_8.extra then
 				local extraImageData = love.image.newImageData(regionW, regionH)
 				extraImageData:paste(
 					atlasData,
@@ -3320,7 +3330,8 @@ ____modules = {
 		-- @param options0.logicalW - The root object
 		-- @param options0.regionH - The root object
 		-- @param options0.regionW - The root object
-		local function outputFrame(____, ____bindingPattern0)
+		-- @noSelf
+		local function outputFrame(____bindingPattern0)
 			local regionW
 			local regionH
 			local logicalW
@@ -3350,31 +3361,34 @@ ____modules = {
 		-- @param options0 - The root object
 		-- @param options0.atlasData - The root object
 		-- @param options0.card - The root object
+		-- @param options0.fileNamePrefix - The root object
 		-- @param options0.filePath - The root object
 		-- @param options0.logicalH - The root object
 		-- @param options0.logicalW - The root object
 		-- @param options0.regionH - The root object
 		-- @param options0.regionW - The root object
-		local function outputAnimation(____, ____bindingPattern0)
+		-- @noSelf
+		local function outputAnimation(____bindingPattern0)
 			local regionW
 			local regionH
 			local logicalW
 			local logicalH
 			local filePath
+			local fileNamePrefix
 			local card
 			local atlasData
 			atlasData = ____bindingPattern0.atlasData
 			card = ____bindingPattern0.card
+			fileNamePrefix = ____bindingPattern0.fileNamePrefix
 			filePath = ____bindingPattern0.filePath
 			logicalH = ____bindingPattern0.logicalH
 			logicalW = ____bindingPattern0.logicalW
 			regionH = ____bindingPattern0.regionH
 			regionW = ____bindingPattern0.regionW
-			local base_name = __TS__StringReplaceAll(card.key, "?", "_")
-			local image_folder = ((output_root .. "images/") .. base_name) .. "/"
-			love.filesystem.createDirectory(image_folder)
+			local folderPath = (imagesFolderPath .. fileNamePrefix) .. "/"
+			love.filesystem.createDirectory(folderPath)
 			local frames = createAnimationFrames(card, atlasData, regionW, regionH)
-			outputFrame(nil, {
+			outputFrame({
 				filePath = filePath,
 				frameData = frames[1],
 				logicalH = logicalH,
@@ -3385,17 +3399,14 @@ ____modules = {
 			for ____, ____value in __TS__Iterator(__TS__ArrayEntries(frames)) do
 				local index = ____value[1]
 				local frameData = ____value[2]
-				outputFrame(
-					nil,
-					{
-						filePath = (((image_folder .. base_name) .. "_") .. tostring(index)) .. ".png",
-						frameData = frameData,
-						logicalH = logicalH,
-						logicalW = logicalW,
-						regionH = regionH,
-						regionW = regionW
-					}
-				)
+				outputFrame({
+					filePath = (((folderPath .. fileNamePrefix) .. "_") .. tostring(index)) .. ".png",
+					frameData = frameData,
+					logicalH = logicalH,
+					logicalW = logicalW,
+					regionH = regionH,
+					regionW = regionW
+				})
 			end
 			local IS_WINDOWS = love.system.getOS() == "Windows"
 			local SH_PREFIX = IS_WINDOWS and "powershell.exe -command " or ""
@@ -3403,45 +3414,50 @@ ____modules = {
 			local EXPORT_FPS = 10
 			local FPS_FLAG = tostring(EXPORT_FPS)
 			local QUOTE = IS_WINDOWS and "\"" or "'"
-			local INPUT_PATTERN = (((QUOTE .. image_folder) .. base_name) .. "_%d.png") .. QUOTE
+			local INPUT_PATTERN = (((QUOTE .. folderPath) .. fileNamePrefix) .. "_%d.png") .. QUOTE
 			local GIF_FPSFLAG = tostring(100 / 3 * (EXPORT_FPS / 30))
 			local filt_gif = (((QUOTE .. "format=rgba,fps=") .. GIF_FPSFLAG) .. ",split[a][b];[a]palettegen=reserve_transparent=1:stats_mode=single[p];[b][p]paletteuse=dither=bayer:bayer_scale=5:new=1") ..
-				QUOTE
-			local gif_path = ((output_root .. "images/") .. base_name) .. ".gif"
+			QUOTE
+			local gif_path = (imagesFolderPath .. fileNamePrefix) .. ".gif"
 			local filt_apng = ((QUOTE .. "format=rgba,fps=") .. FPS_FLAG) .. QUOTE
-			local apng_path = ((output_root .. "images/") .. base_name) .. ".apng"
+			local apng_path = (imagesFolderPath .. fileNamePrefix) .. ".apng"
 			local NULL_REDIRECT = IS_WINDOWS and "> $null 2>&1" or "> /dev/null 2>&1"
 			local ffmpegGifCommand = (((((((((((SH_PREFIX .. "ffmpeg -y ") .. common) .. " -f image2 -framerate ") .. FPS_FLAG) .. " -start_number 0 -i ") .. INPUT_PATTERN) .. " -filter_complex ") .. filt_gif) .. " -gifflags +transdiff -color_primaries bt709 -colorspace bt709 -color_trc bt709 -loop 0 ") .. gif_path) .. " ") ..
-				NULL_REDIRECT
+			NULL_REDIRECT
 			local ffmpegApngCommand = (((((((((((SH_PREFIX .. "ffmpeg -y ") .. common) .. " -f image2 -framerate ") .. FPS_FLAG) .. " -start_number 0 -i ") .. INPUT_PATTERN) .. " -filter_complex ") .. filt_apng) .. " -plays 0 -pix_fmt rgba -compression_level 3 ") .. apng_path) .. " ") ..
-				NULL_REDIRECT
+			NULL_REDIRECT
 			os.execute(ffmpegApngCommand)
 			os.execute(ffmpegGifCommand)
 		end
 		---
 		-- @param card
-		local function outputImage(____, card)
+		-- @param prefix
+		-- @noSelf
+		local function outputImage(card, prefix)
+			if prefix == nil then
+				prefix = ""
+			end
 			local atlasGroup = G.ASSET_ATLAS
 			if card.set == "Blind" then
 				atlasGroup = G.ANIMATION_ATLAS
 			end
 			assignAtlasIfNeeded(card)
-			print("outputImage: start")
 			local atlasData = getAtlasData(card, { atlasGroup = atlasGroup })
 			if not outputImages or not atlasData then
 				return
 			end
-			print("outputImage: crop & resize")
-			local filePath = ((output_root .. "images/") .. __TS__StringReplaceAll(card.key, "?", "_")) .. ".png"
-			local ____getLogicalAndRegion_result_9 = getLogicalAndRegion(card, { atlasGroup = atlasGroup })
-			local logicalH = ____getLogicalAndRegion_result_9.logicalH
-			local logicalW = ____getLogicalAndRegion_result_9.logicalW
-			local regionH = ____getLogicalAndRegion_result_9.regionH
-			local regionW = ____getLogicalAndRegion_result_9.regionW
+			local fileNamePrefix = prefix .. __TS__StringReplaceAll(card.key, "?", "_")
+			local filePath = (imagesFolderPath .. fileNamePrefix) .. ".png"
+			local ____getLogicalAndRegion_result_10 = getLogicalAndRegion(card, { atlasGroup = atlasGroup })
+			local logicalH = ____getLogicalAndRegion_result_10.logicalH
+			local logicalW = ____getLogicalAndRegion_result_10.logicalW
+			local regionH = ____getLogicalAndRegion_result_10.regionH
+			local regionW = ____getLogicalAndRegion_result_10.regionW
 			if atlasGroup == G.ANIMATION_ATLAS then
-				outputAnimation(nil, {
+				outputAnimation({
 					atlasData = atlasData,
 					card = card,
+					fileNamePrefix = fileNamePrefix,
 					filePath = filePath,
 					logicalH = logicalH,
 					logicalW = logicalW,
@@ -3464,7 +3480,6 @@ ____modules = {
 				imageData = resizeImageData(imageData, logicalW, logicalH)
 			end
 			saveImageData(imageData, filePath)
-			print("outputImage: done")
 		end
 		____exports.default = outputImage
 		return ____exports
@@ -3477,12 +3492,12 @@ ____modules = {
 		end
 		do
 			local ____get_2Ddescription_2Dfrom_2Dtable_2Ets = require(
-				"library.server.handle-message.exporter._common.get-description-from-table")
+			"library.server.handle-message.exporter._common.get-description-from-table")
 			____exports.getDescriptionFromTable = ____get_2Ddescription_2Dfrom_2Dtable_2Ets.default
 		end
 		do
 			local ____get_2Dname_2Dfrom_2Dtable_2Ets = require(
-				"library.server.handle-message.exporter._common.get-name-from-table")
+			"library.server.handle-message.exporter._common.get-name-from-table")
 			____exports.getNameFromTable = ____get_2Dname_2Dfrom_2Dtable_2Ets.default
 		end
 		do
@@ -3499,48 +3514,280 @@ ____modules = {
 		local _____exports_2Ets = require("library.server.handle-message.exporter._common._exports")
 		local outputImage = _____exports_2Ets.outputImage
 		---
-		-- @param sets
 		-- @param blind
 		-- @noSelf
 		-- @example
-		local function processBlind(sets, blind)
+		local function processBlind(blind)
 			local item = {}
-			outputImage(
-				nil,
-				__TS__ObjectAssign({}, blind, { atlas = blind.atlas or "blind_chips", set = "Blind" })
-			)
-			if sets.Blind == nil then
-				sets.Blind = {}
+			outputImage(__TS__ObjectAssign({}, blind, { atlas = blind.atlas or "blind_chips", set = "Blind" }))
+			item.key = blind.key
+			item.name = localize({ key = blind.key, set = "Blind", type = "name_text" })
+			local loc_variables = nil
+			if item.name == "The Ox" then
+				loc_variables = { localize(G.GAME.current_round.most_played_poker_hand, "poker_hands") }
 			end
-			if not sets.Blind[blind.key] then
-				item.key = blind.key
-				item.name = localize({ key = blind.key, set = "Blind", type = "name_text" })
-				local loc_variables = nil
-				if item.name == "The Ox" then
-					loc_variables = { localize(G.GAME.current_round.most_played_poker_hand, "poker_hands") }
-				end
-				if blind.loc_vars and type(blind.loc_vars) == "function" then
-					local result = blind:loc_vars() or ({})
-					loc_variables = result.vars or ({})
-				end
-				item.description = localize({
-					key = blind.key,
-					set = "Blind",
-					type = "raw_descriptions",
-					vars =
-						loc_variables or blind.vars
-				})
-				if blind.mod and blind.mod.id ~= "Aura" and blind.mod.id ~= "aure_spectral" then
-					item.mod = blind.mod.id
-				end
-				item.tags = {}
-				item.image_url = ("images/" .. __TS__StringReplace(blind.key, "?", "_")) .. ".png"
+			if blind.loc_vars and type(blind.loc_vars) == "function" then
+				local result = blind:loc_vars() or ({})
+				loc_variables = result.vars or ({})
 			end
+			item.description = localize({ key = blind.key, set = "Blind", type = "raw_descriptions", vars = loc_variables or
+			blind.vars })
+			if blind.mod and blind.mod.id ~= "Aura" and blind.mod.id ~= "aure_spectral" then
+				item.mod = blind.mod.id
+			end
+			item.tags = {}
+			item.image_url = ("images/" .. __TS__StringReplace(blind.key, "?", "_")) .. ".png"
 			if item.name then
-				sets.Blind[item.key] = item
+				return item
 			end
 		end
 		____exports.default = processBlind
+		return ____exports
+	end,
+	["library.server.handle-message.exporter.process-card"] = function(...)
+		local ____lualib = require("lualib_bundle")
+		local __TS__StringReplaceAll = ____lualib.__TS__StringReplaceAll
+		local ____exports = {}
+		local _____exports_2Ets = require("library.server.handle-message.exporter._common._exports")
+		local getDescriptionFromTable = _____exports_2Ets.getDescriptionFromTable
+		local getNameFromTable = _____exports_2Ets.getNameFromTable
+		local outputImage = _____exports_2Ets.outputImage
+		--- Process consumable cards and add to sets
+		--
+		-- @param card - The card object to process
+		-- @param center - The center configuration object
+		local function processConsumable(____, card, center)
+			local item = {}
+			if card.ability_UIBox_table then
+				item.name = getNameFromTable(card.ability_UIBox_table.name)
+				item.description = getDescriptionFromTable(card.ability_UIBox_table.main)
+			end
+			item.key = center.key
+			item.set = __TS__StringReplaceAll(center.set, " ", "_")
+			local ____temp_0
+			if center.mod and center.mod.id ~= "Aura" and center.mod.id ~= "aure_spectral" then
+				____temp_0 = center.mod.id
+			else
+				____temp_0 = nil
+			end
+			item.mod = ____temp_0
+			item.tags = {}
+			item.image_url = ("images/" .. __TS__StringReplaceAll(center.key, "?", "_")) .. ".png"
+			item.consumable = true
+			if item.name then
+				return item
+			end
+		end
+		--- Check if card has chips ability
+		--
+		-- @param card - The card object to check
+		-- @returns True if card has chips ability
+		local function hasChipsAbility(____, card)
+			return type(card.ability.chips) == "number" and card.ability.chips > 0 or
+			type(card.ability.t_chips) == "number" and card.ability.t_chips > 0 or
+			card.ability.extra and type(card.ability.extra) == "table" and
+			(type(card.ability.extra.current_chips) == "number" and card.ability.extra.current_chips > 0 or type(card.ability.extra.chips) == "number" and card.ability.extra.chips > 0)
+		end
+		--- Check if card has mult ability
+		--
+		-- @param card - The card object to check
+		-- @returns True if card has mult ability
+		local function hasMultAbility(____, card)
+			return type(card.ability.mult) == "number" and card.ability.mult > 0 or
+			type(card.ability.t_mult) == "number" and card.ability.t_mult > 0 or
+			card.ability.extra and type(card.ability.extra) == "table" and
+			(type(card.ability.extra.s_mult) == "number" and card.ability.extra.s_mult > 0 or type(card.ability.extra.mult) == "number" and card.ability.extra.mult > 0)
+		end
+		--- Check if card has xmult ability
+		--
+		-- @param card - The card object to check
+		-- @returns True if card has xmult ability
+		local function hasXMultAbility(____, card)
+			return type(card.ability.Xmult) == "number" and card.ability.Xmult > 1 or
+			type(card.ability.xmult) == "number" and card.ability.xmult > 1 or
+			type(card.ability.x_mult) == "number" and card.ability.x_mult > 1 or
+			card.ability.extra and type(card.ability.extra) == "table" and
+			(type(card.ability.extra.Xmult) == "number" and card.ability.extra.Xmult > 0 or type(card.ability.extra.xmult) == "number" and card.ability.extra.xmult > 0 or type(card.ability.extra.x_mult) == "number" and card.ability.extra.x_mult > 0)
+		end
+		--- Check if card has xchips ability
+		--
+		-- @param card - The card object to check
+		-- @returns True if card has xchips ability
+		local function hasXChipsAbility(____, card)
+			return card.ability.extra and type(card.ability.extra) == "table" and
+			(type(card.ability.extra.xchips) == "number" and card.ability.extra.xchips > 0 or type(card.ability.extra.X_chips) == "number" and card.ability.extra.X_chips > 0 or type(card.ability.extra.x_chips) == "number" and card.ability.extra.x_chips > 0)
+		end
+		--- Check for tags based on card abilities
+		--
+		-- @param card - The card object to check
+		-- @returns Array of tag strings
+		local function checkForTags(____, card)
+			local tags = {}
+			if hasChipsAbility(nil, card) then
+				tags[#tags + 1] = "chips"
+			end
+			if hasMultAbility(nil, card) then
+				tags[#tags + 1] = "mult"
+			end
+			if hasXMultAbility(nil, card) then
+				tags[#tags + 1] = "xmult"
+			end
+			if hasXChipsAbility(nil, card) then
+				tags[#tags + 1] = "xchips"
+			end
+			return tags
+		end
+		--- Get custom rarity from badges
+		--
+		-- @param badges - Array of badge objects
+		-- @returns Custom rarity string or empty string
+		local function getCustomRarity(____, badges)
+			local ____opt_17 = badges[1]
+			if ____opt_17 ~= nil then
+				____opt_17 = ____opt_17.nodes
+			end
+			local ____opt_result_19
+			if ____opt_17 ~= nil then
+				____opt_result_19 = ____opt_17[0]
+			end
+			local ____opt_result_20
+			if ____opt_result_19 ~= nil then
+				____opt_result_20 = ____opt_result_19.nodes
+			end
+			local ____opt_result_21
+			if ____opt_result_20 ~= nil then
+				____opt_result_21 = ____opt_result_20[1]
+			end
+			local ____opt_result_22
+			if ____opt_result_21 ~= nil then
+				____opt_result_22 = ____opt_result_21.config
+			end
+			local ____opt_result_23
+			if ____opt_result_22 ~= nil then
+				____opt_result_23 = ____opt_result_22.object
+			end
+			local ____opt_result_24
+			if ____opt_result_23 ~= nil then
+				____opt_result_24 = ____opt_result_23.config
+			end
+			local ____opt_result_25
+			if ____opt_result_24 ~= nil then
+				____opt_result_25 = ____opt_result_24.string
+			end
+			local ____opt_result_26
+			if ____opt_result_25 ~= nil then
+				____opt_result_26 = ____opt_result_25[0]
+			end
+			if ____opt_result_26 then
+				local customRarity = unpack(badges[1].nodes[0].nodes[1].config.object.config.string)
+				return customRarity
+			end
+			return ""
+		end
+		--- Get rarity mapping
+		--
+		-- @returns Rarity mapping object
+		local function getRarityMap()
+			return {
+				[1] = _G:localize("k_common"),
+				[2] = _G:localize("k_uncommon"),
+				[3] = _G:localize("k_rare"),
+				[4] = _G:localize("k_legendary"),
+				[5] = _G:localize("k_fusion"),
+				cere_divine = "Divine",
+				cry_epic = "Epic",
+				cry_exotic = "Exotic",
+				evo = "Evolved",
+				poke_safari = "Safari"
+			}
+		end
+		--- Process joker cards and add to sets
+		--
+		-- @param card - The card object to process
+		-- @param center - The center configuration object
+		local function processJoker(____, card, center)
+			local item = {}
+			local badges = {}
+			if card.ability_UIBox_table then
+				item.name = getNameFromTable(card.ability_UIBox_table.name)
+				item.description = getDescriptionFromTable(card.ability_UIBox_table.main)
+				if center.set_card_type_badge then
+					center:set_card_type_badge(card, badges)
+				end
+			end
+			local customRarity = getCustomRarity(nil, badges)
+			local rarityMap = getRarityMap(nil)
+			item.rarity = rarityMap[center.rarity] or center.rarity
+			if customRarity ~= "" then
+				item.rarity = customRarity
+			end
+			item.key = center.key
+			item.set = center.set
+			local ____temp_27
+			if center.mod and center.mod.id ~= "Aura" and center.mod.id ~= "aure_spectral" then
+				____temp_27 = center.mod.id
+			else
+				____temp_27 = nil
+			end
+			item.mod = ____temp_27
+			item.tags = checkForTags(nil, card)
+			item.image_url = ("images/" .. __TS__StringReplaceAll(center.key, "?", "_")) .. ".png"
+			if item.name then
+				return item
+			end
+		end
+		--- Process other card types and add to sets
+		--
+		-- @param card - The card object to process
+		-- @param center - The center configuration object
+		local function processOther(____, card, center)
+			local item = {}
+			if card.ability_UIBox_table then
+				item.name = getNameFromTable(card.ability_UIBox_table.name)
+				item.description = getDescriptionFromTable(card.ability_UIBox_table.main)
+			end
+			item.key = center.key
+			item.set = center.set
+			local ____temp_28
+			if center.mod and center.mod.id ~= "Aura" and center.mod.id ~= "aure_spectral" then
+				____temp_28 = center.mod.id
+			else
+				____temp_28 = nil
+			end
+			item.mod = ____temp_28
+			item.tags = {}
+			item.image_url = ("images/" .. __TS__StringReplaceAll(center.key, "?", "_")) .. ".png"
+			if item.name then
+				return item
+			end
+		end
+		--- Process card data and add to appropriate sets
+		--
+		-- @param card - The card object to process
+		local function processCard(____, card)
+			local ____card_config_29 = card.config
+			local center = ____card_config_29.center
+			outputImage(center)
+			local ____temp_32 = center.object_type == "Consumable" or center.consumable == true or
+			center.consumeable == true
+			if not ____temp_32 then
+				local ____opt_30 = center.type
+				if ____opt_30 ~= nil then
+					____opt_30 = ____opt_30.atlas
+				end
+				____temp_32 = ____opt_30 == "ConsumableType"
+			end
+			if ____temp_32 then
+				return processConsumable(nil, card, center)
+			end
+			if center.set == "Joker" then
+				return processJoker(nil, card, center)
+			elseif center.set == "Skill" then
+				return processOther(nil, card, center)
+			end
+			return processOther(nil, card, center)
+		end
+		____exports.default = processCard
 		return ____exports
 	end,
 	["library.server.handle-message.exporter.process-edition"] = function(...)
@@ -3551,14 +3798,14 @@ ____modules = {
 		local getDescriptionFromTable = _____exports_2Ets.getDescriptionFromTable
 		local getNameFromTable = _____exports_2Ets.getNameFromTable
 		local ____output_rendered_image = require(
-			"library.server.handle-message.exporter.process-edition.output_rendered_image")
+		"library.server.handle-message.exporter.process-edition.output_rendered_image")
 		local output_rendered_image = ____output_rendered_image.output_rendered_image
 		---
 		-- @param sets
 		-- @param card
 		-- @noSelf
 		-- @example
-		local function processEdition(sets, card)
+		local function processEdition(card)
 			local item = {}
 			local ____card_config_0 = card.config
 			local center = ____card_config_0.center
@@ -3575,11 +3822,7 @@ ____modules = {
 			item.tags = {}
 			item.image_url = ("images/" .. __TS__StringReplace(center.key, "?", "_")) .. ".png"
 			if item.name ~= nil then
-				local ____sets_1, ____item_set_2 = sets, item.set
-				if ____sets_1[____item_set_2] == nil then
-					____sets_1[____item_set_2] = {}
-				end
-				sets[item.set][item.key] = item
+				return item
 			end
 		end
 		____exports.default = processEdition
@@ -3595,7 +3838,7 @@ ____modules = {
 		-- helper : frame-rate → dt and string versions used later
 		--------------------------------------------------------------------
 		local DT = 1 / EXPORT_FPS
-		local FPS_FLAG = tostring(EXPORT_FPS)               -- "30"
+		local FPS_FLAG = tostring(EXPORT_FPS)             -- "30"
 		local GIF_FPSFLAG = tostring(100 / 3 * (EXPORT_FPS / 30)) -- keeps 30 ms @ any fps
 		local function draw_sprite_single(card, sprite, shader, canvas, shadername, _shadow_height)
 			love.graphics.push()
@@ -3813,7 +4056,7 @@ ____modules = {
 							end
 
 							G.shared_shadow = card.sprite_facing == 'front' and card.children.center or
-								card.children.back
+							card.children.back
 
 							-- Draw the shadow
 							if not card.no_shadow and G.SETTINGS.GRAPHICS.shadows == 'On' and
@@ -3906,7 +4149,7 @@ ____modules = {
 											draw_sprite(card, v, G.SHADERS[v.shader], canvas, v.shader)
 										else
 											draw_sprite(card, card.children.center, G.SHADERS[v.shader], canvas, v
-												.shader)
+											.shader)
 											if card.children.front and card.ability.effect ~= 'Stone Card' and
 												not card.config.center.replace_base_card then
 												draw_sprite(card, card.children.front, G.SHADERS[v.shader], canvas,
@@ -4066,18 +4309,17 @@ ____modules = {
 		local getDescriptionFromTable = _____exports_2Ets.getDescriptionFromTable
 		local outputImage = _____exports_2Ets.outputImage
 		---
-		-- @param sets
 		-- @param card
 		-- @noSelf
 		-- @example
-		local function processEnhancement(sets, card)
+		local function processEnhancement(card)
 			local item = {}
 			local ____card_config_0 = card.config
 			local center = ____card_config_0.center
 			if center.atlas == nil then
 				center.atlas = "centers"
 			end
-			outputImage(nil, center)
+			outputImage(center)
 			if card.ability_UIBox_table then
 				item.name = localize({ key = center.key, set = center.set, type = "name_text" })
 				item.description = getDescriptionFromTable(card.ability_UIBox_table.main)
@@ -4090,10 +4332,7 @@ ____modules = {
 			item.tags = {}
 			item.image_url = ("images/" .. __TS__StringReplace(center.key, "?", "_")) .. ".png"
 			if item.name ~= nil then
-				if not sets[item.set] then
-					sets[item.set] = {}
-				end
-				sets[item.set][item.key] = item
+				return item
 			end
 		end
 		____exports.default = processEnhancement
@@ -4116,7 +4355,7 @@ ____modules = {
 			end
 			local key = "icon_" .. tostring(mod.id or mod.prefix or mod.name or "mod")
 			local card = { atlas = atlas, key = key, pos = pos, set = atlas }
-			outputImage(nil, card)
+			outputImage(card)
 			return ("images/" .. __TS__StringReplace(key, "?", "_")) .. ".png"
 		end
 		____exports.default = processModIcon
@@ -4126,7 +4365,7 @@ ____modules = {
 		local ____exports = {}
 		do
 			local ____process_2Dmod_2Dicon_2Ets = require(
-				"library.server.handle-message.exporter.process-mod.process-mod-icon")
+			"library.server.handle-message.exporter.process-mod.process-mod-icon")
 			____exports.processModIcon = ____process_2Dmod_2Dicon_2Ets.default
 		end
 		return ____exports
@@ -4138,14 +4377,12 @@ ____modules = {
 		local _____exports_2Ets = require("library.server.handle-message.exporter.process-mod._exports")
 		local processModIcon = _____exports_2Ets.processModIcon
 		---
-		-- @param sets
 		-- @param mod
 		-- @noSelf
 		-- @example
-		local function processMod(sets, mod)
-			local item = {}
+		local function processMod(mod)
 			if mod.name and mod.id then
-				sets.Mods[mod.id] = {
+				return {
 					id = mod.id,
 					badge_colour = convertToHex(mod.badge_colour),
 					badge_text_colour = convertToHex(mod.badge_text_colour),
@@ -4156,6 +4393,122 @@ ____modules = {
 			end
 		end
 		____exports.default = processMod
+		return ____exports
+	end,
+	["library.server.handle-message.exporter.process-playing-card"] = function(...)
+		local ____lualib = require("lualib_bundle")
+		local __TS__StringReplaceAll = ____lualib.__TS__StringReplaceAll
+		local ____exports = {}
+		local _____exports_2Ets = require("library.server.handle-message.exporter._common._exports")
+		local getDescriptionFromTable = _____exports_2Ets.getDescriptionFromTable
+		local getNameFromTable = _____exports_2Ets.getNameFromTable
+		local outputImage = _____exports_2Ets.outputImage
+		--- Process playing card data and add to sets
+		--
+		-- @param card - The card object to process
+		-- @param center - The center configuration object
+		-- @param key - The key identifier for the playing card
+		local function processPlayingCard(____, card, center, key)
+			local item = {}
+			center.key = key
+			center.atlas = center.lc_atlas
+			outputImage(center, "playing_card_")
+			if card.ability_UIBox_table then
+				item.name = getNameFromTable(card.ability_UIBox_table.name)
+				item.description = getDescriptionFromTable(card.ability_UIBox_table.main)
+			end
+			item.key = key
+			item.set = center.suit
+			local ____temp_0
+			if center.mod and center.mod.id ~= "Aura" and center.mod.id ~= "aure_spectral" then
+				____temp_0 = center.mod.id
+			else
+				____temp_0 = nil
+			end
+			item.mod = ____temp_0
+			item.tags = {}
+			item.image_url = ("images/" .. __TS__StringReplaceAll(key, "?", "_")) .. ".png"
+			if item.name then
+				return item
+			end
+		end
+		____exports.default = processPlayingCard
+		return ____exports
+	end,
+	["library.server.handle-message.exporter.process-seal"] = function(...)
+		local ____lualib = require("lualib_bundle")
+		local __TS__StringReplaceAll = ____lualib.__TS__StringReplaceAll
+		local ____exports = {}
+		local _____exports_2Ets = require("library.server.handle-message.exporter._common._exports")
+		local outputImage = _____exports_2Ets.outputImage
+		--- Process seal data and add to sets
+		--
+		-- @param card - The card object containing the seal
+		-- @param seal - The seal object to process
+		local function process_seal(____, card, seal)
+			local item = {}
+			outputImage(seal, "seal_")
+			if card.ability_UIBox_table then
+				item.name = _G:localize({ key = card.ability_UIBox_table.name.key or seal.key, nodes = card
+				.ability_UIBox_table.name.nodes or ({}), set = seal.set, type = "name_text" })
+				item.description = _G:localize({
+					key = card.ability_UIBox_table.main.key or seal.key,
+					nodes = card.ability_UIBox_table.main.nodes or ({}),
+					set = seal.set,
+					type = "descriptions",
+					vars = card.ability_UIBox_table.main.vars or ({})
+				})
+			end
+			item.key = seal.key
+			item.set = seal.set
+			if seal.mod and seal.mod.id ~= "Aura" and seal.mod.id ~= "aure_spectral" then
+				item.mod = seal.mod.id
+			end
+			item.tags = {}
+			item.image_url = ("images/" .. __TS__StringReplaceAll(seal.key, "?", "_")) .. ".png"
+			if item.name then
+				return item
+			end
+		end
+		____exports.default = process_seal
+		return ____exports
+	end,
+	["library.server.handle-message.exporter.process-stake"] = function(...)
+		local ____lualib = require("lualib_bundle")
+		local __TS__ObjectAssign = ____lualib.__TS__ObjectAssign
+		local __TS__StringReplaceAll = ____lualib.__TS__StringReplaceAll
+		local ____exports = {}
+		local _____exports_2Ets = require("library.server.handle-message.exporter._common._exports")
+		local outputImage = _____exports_2Ets.outputImage
+		--- Process stake data and add to sets
+		--
+		-- @param stake - The stake object to process
+		local function processStake(____, stake)
+			local item = {}
+			outputImage(__TS__ObjectAssign({}, stake, { atlas = stake.atlas or "chips", set = "Stake" }))
+			item.key = stake.key
+			item.name = localize({ key = stake.key, set = "Stake", type = "name_text" })
+			local localizationVariables = nil
+			if stake.loc_vars and type(stake.loc_vars) == "function" then
+				local result = stake:loc_vars() or ({})
+				localizationVariables = result.vars or ({})
+			end
+			if stake.mod and stake.mod.id ~= "Aura" and stake.mod.id ~= "aure_spectral" then
+				item.mod = stake.mod.id
+			end
+			item.description = localize({
+				key = stake.key,
+				nodes = {},
+				set = "Stake",
+				type = "raw_descriptions",
+				vars = localizationVariables
+			})
+			item.image_url = ("images/" .. __TS__StringReplaceAll(stake.key, "?", "_")) .. ".png"
+			if item.name then
+				return item
+			end
+		end
+		____exports.default = processStake
 		return ____exports
 	end,
 	["library.server.handle-message.exporter.process-suit"] = function(...)
@@ -4169,7 +4522,7 @@ ____modules = {
 		-- @param suit
 		-- @noSelf
 		-- @example
-		local function processSuit(sets, suit)
+		local function processSuit(suit)
 			local item = {}
 			local input = __TS__ObjectAssign(
 				{},
@@ -4179,14 +4532,14 @@ ____modules = {
 					pos = __TS__ObjectAssign({}, suit.pos, { x = 12 })
 				}
 			)
-			outputImage(nil, input)
+			outputImage(input, "suit_")
 			item.name = G.localization.misc.suits_plural[suit.key]
 			item.key = suit.key
 			if suit.mod ~= nil and suit.mod.id ~= "Aura" and suit.mod.id ~= "aure_spectral" then
 				item.mod = suit.mod.id
 			end
 			if item.name then
-				sets.Suit[item.key] = item
+				return item
 			end
 		end
 		____exports.default = processSuit
@@ -4205,7 +4558,7 @@ ____modules = {
 		-- @param tag
 		-- @noSelf
 		-- @example
-		local function processTag(sets, tag)
+		local function processTag(tag)
 			local item = {}
 			if tag.set == nil then
 				tag.set = "Tag"
@@ -4213,7 +4566,7 @@ ____modules = {
 			if tag.atlas == nil then
 				tag.atlas = "tags"
 			end
-			outputImage(nil, tag)
+			outputImage(tag)
 			if tag.tag_sprite.ability_UIBox_table ~= nil then
 				item.name = getNameFromTable(tag.tag_sprite.ability_UIBox_table.name)
 				item.description = getDescriptionFromTable(tag.tag_sprite.ability_UIBox_table.main)
@@ -4226,88 +4579,10 @@ ____modules = {
 			item.tags = {}
 			item.image_url = ("images/" .. __TS__StringReplace(tag.key, "?", "_")) .. ".png"
 			if item.name then
-				if sets.Tag == nil then
-					sets.Tag = {}
-				end
-				sets.Tag[item.key] = item
+				return item
 			end
 		end
 		____exports.default = processTag
-		return ____exports
-	end,
-	["library.server.handle-message.exporter.process_card"] = function(...)
-		local ____exports = {}
-		---
-		-- @param sets
-		-- @param card
-		-- @noSelf
-		-- @example
-		local function process_card(sets, card)
-		end
-		____exports.default = process_card
-		return ____exports
-	end,
-	["library.server.handle-message.exporter.process_curse"] = function(...)
-		local ____exports = {}
-		---
-		-- @param sets
-		-- @param curse
-		-- @noSelf
-		-- @example
-		local function process_curse(sets, curse)
-		end
-		____exports.default = process_curse
-		return ____exports
-	end,
-	["library.server.handle-message.exporter.process_d6_side"] = function(...)
-		local ____exports = {}
-		---
-		-- @param sets
-		-- @param d6_side
-		-- @noSelf
-		-- @example
-		local function process_d6_side(sets, d6_side)
-		end
-		____exports.default = process_d6_side
-		return ____exports
-	end,
-	["library.server.handle-message.exporter.process_playing_card"] = function(...)
-		local ____exports = {}
-		---
-		-- @param sets
-		-- @param card
-		-- @param center
-		-- @param key
-		-- @noSelf
-		-- @example
-		local function process_playing_card(sets, card, center, key)
-		end
-		____exports.default = process_playing_card
-		return ____exports
-	end,
-	["library.server.handle-message.exporter.process_seal"] = function(...)
-		local ____exports = {}
-		---
-		-- @param sets
-		-- @param card
-		-- @param seal
-		-- @noSelf
-		-- @example
-		local function process_seal(sets, card, seal)
-		end
-		____exports.default = process_seal
-		return ____exports
-	end,
-	["library.server.handle-message.exporter.process_stake"] = function(...)
-		local ____exports = {}
-		---
-		-- @param sets
-		-- @param stake
-		-- @noSelf
-		-- @example
-		local function process_stake(sets, stake)
-		end
-		____exports.default = process_stake
 		return ____exports
 	end,
 	["library.server.handle-message.exporter.sets"] = function(...)
@@ -4318,8 +4593,6 @@ ____modules = {
 			Booster = {},
 			Consumables = {},
 			Contract = {},
-			Curse = {},
-			["D6 Side"] = {},
 			Edition = {},
 			Enhanced = {},
 			Joker = {},
@@ -4340,13 +4613,12 @@ ____modules = {
 	["library.server.handle-message.exporter._exports"] = function(...)
 		local ____exports = {}
 		do
-			local ____filter_2Dlist_2Dfrom_2Dstring_2Ets = require(
-				"library.server.handle-message.exporter.filter-list-from-string")
-			____exports.filterListFromString = ____filter_2Dlist_2Dfrom_2Dstring_2Ets.default
-		end
-		do
 			local ____process_2Dblind_2Ets = require("library.server.handle-message.exporter.process-blind")
 			____exports.processBlind = ____process_2Dblind_2Ets.default
+		end
+		do
+			local ____process_2Dcard_2Ets = require("library.server.handle-message.exporter.process-card")
+			____exports.processCard = ____process_2Dcard_2Ets.default
 		end
 		do
 			local ____process_2Dedition_2Ets = require("library.server.handle-message.exporter.process-edition")
@@ -4361,36 +4633,25 @@ ____modules = {
 			____exports.processMod = ____process_2Dmod_2Ets.default
 		end
 		do
+			local ____process_2Dplaying_2Dcard_2Ets = require(
+			"library.server.handle-message.exporter.process-playing-card")
+			____exports.processPlayingCard = ____process_2Dplaying_2Dcard_2Ets.default
+		end
+		do
+			local ____process_2Dseal_2Ets = require("library.server.handle-message.exporter.process-seal")
+			____exports.processSeal = ____process_2Dseal_2Ets.default
+		end
+		do
+			local ____process_2Dstake_2Ets = require("library.server.handle-message.exporter.process-stake")
+			____exports.processStake = ____process_2Dstake_2Ets.default
+		end
+		do
 			local ____process_2Dsuit_2Ets = require("library.server.handle-message.exporter.process-suit")
 			____exports.processSuit = ____process_2Dsuit_2Ets.default
 		end
 		do
 			local ____process_2Dtag_2Ets = require("library.server.handle-message.exporter.process-tag")
 			____exports.processTag = ____process_2Dtag_2Ets.default
-		end
-		do
-			local ____process_card_2Ets = require("library.server.handle-message.exporter.process_card")
-			____exports.process_card = ____process_card_2Ets.default
-		end
-		do
-			local ____process_curse_2Ets = require("library.server.handle-message.exporter.process_curse")
-			____exports.process_curse = ____process_curse_2Ets.default
-		end
-		do
-			local ____process_d6_side_2Ets = require("library.server.handle-message.exporter.process_d6_side")
-			____exports.process_d6_side = ____process_d6_side_2Ets.default
-		end
-		do
-			local ____process_playing_card_2Ets = require("library.server.handle-message.exporter.process_playing_card")
-			____exports.process_playing_card = ____process_playing_card_2Ets.default
-		end
-		do
-			local ____process_seal_2Ets = require("library.server.handle-message.exporter.process_seal")
-			____exports.process_seal = ____process_seal_2Ets.default
-		end
-		do
-			local ____process_stake_2Ets = require("library.server.handle-message.exporter.process_stake")
-			____exports.process_stake = ____process_stake_2Ets.default
 		end
 		do
 			local ____sets_2Ets = require("library.server.handle-message.exporter.sets")
@@ -4400,50 +4661,142 @@ ____modules = {
 	end,
 	["library.server.handle-message.exporter"] = function(...)
 		local ____lualib = require("lualib_bundle")
+		local __TS__StringTrim = ____lualib.__TS__StringTrim
+		local __TS__StringReplaceAll = ____lualib.__TS__StringReplaceAll
+		local __TS__StringSplit = ____lualib.__TS__StringSplit
+		local __TS__ArrayMap = ____lualib.__TS__ArrayMap
 		local __TS__ObjectKeys = ____lualib.__TS__ObjectKeys
+		local __TS__ArrayFilter = ____lualib.__TS__ArrayFilter
 		local __TS__ArrayToSorted = ____lualib.__TS__ArrayToSorted
+		local Map = ____lualib.Map
+		local __TS__ObjectEntries = ____lualib.__TS__ObjectEntries
+		local __TS__MapGroupBy = ____lualib.__TS__MapGroupBy
 		local __TS__ArrayIncludes = ____lualib.__TS__ArrayIncludes
 		local __TS__ObjectAssign = ____lualib.__TS__ObjectAssign
+		local __TS__Spread = ____lualib.__TS__Spread
+		local __TS__ObjectFromEntries = ____lualib.__TS__ObjectFromEntries
 		local ____exports = {}
 		local _____exports_2Ets = require("library.server.handle-message._common._exports")
 		local output_root = _____exports_2Ets.output_root
 		local _____exports_2Ets = require("library.server.handle-message.exporter._exports")
-		local filterListFromString = _____exports_2Ets.filterListFromString
-		local process_card = _____exports_2Ets.process_card
-		local process_curse = _____exports_2Ets.process_curse
-		local process_d6_side = _____exports_2Ets.process_d6_side
-		local process_playing_card = _____exports_2Ets.process_playing_card
-		local process_seal = _____exports_2Ets.process_seal
-		local process_stake = _____exports_2Ets.process_stake
 		local processBlind = _____exports_2Ets.processBlind
+		local processCard = _____exports_2Ets.processCard
 		local processEdition = _____exports_2Ets.processEdition
 		local processEnhancement = _____exports_2Ets.processEnhancement
 		local processMod = _____exports_2Ets.processMod
+		local processPlayingCard = _____exports_2Ets.processPlayingCard
+		local processSeal = _____exports_2Ets.processSeal
+		local processStake = _____exports_2Ets.processStake
 		local processSuit = _____exports_2Ets.processSuit
 		local processTag = _____exports_2Ets.processTag
 		local sets = _____exports_2Ets.sets
 		---
+		-- @param center
+		local function processCenter(____, center)
+			local centerCard = nil
+			local result
+			center.discovered = true
+			center.unlocked = true
+			repeat
+				local ____switch3 = center.set
+				local ____cond3 = ____switch3 == "Edition"
+				if ____cond3 then
+					centerCard = Card(
+						G.jokers.T.x + G.jokers.T.w / 2,
+						G.jokers.T.y,
+						G.CARD_W,
+						G.CARD_H,
+						G.P_CARDS.empty,
+						center
+					)
+					centerCard:set_edition(center.key, true, true)
+					centerCard:hover()
+					result = processEdition(centerCard)
+					break
+				end
+				____cond3 = ____cond3 or ____switch3 == "Enhanced"
+				if ____cond3 then
+					centerCard = SMODS.create_card({
+						area = G.jokers,
+						enhancement = center.key,
+						key = "c_base",
+						legendary = false,
+						no_edition = true,
+						set = "Default",
+						skip_materialize = true
+					})
+					centerCard:hover()
+					result = processEnhancement(centerCard)
+					break
+				end
+				____cond3 = ____cond3 or ____switch3 == "Sticker"
+				if ____cond3 then
+					centerCard = SMODS.create_card({
+						area = G.jokers,
+						key = "c_base",
+						legendary = false,
+						no_edition = true,
+						set = "Default",
+						skip_materialize = true,
+						stickers = { center.key }
+					})
+					centerCard:hover()
+					break
+				end
+				do
+					if center.set ~= nil and center.set ~= "Other" and center.set ~= "Default" and not center.no_collection then
+						centerCard = SMODS.create_card({
+							area = G.jokers,
+							key = center.key,
+							legendary = center.legendary,
+							no_edition = true,
+							rarity = center.rarity,
+							set = center.set,
+							skip_materialize = true
+						})
+						do
+							local function ____catch(____error)
+								print("Error hovering card: " .. tostring(center.key))
+								print(____error)
+								centerCard = nil
+							end
+							local ____try, ____hasReturned = pcall(function()
+								centerCard:hover()
+								result = processCard(nil, centerCard)
+							end)
+							if not ____try then
+								____catch(____hasReturned)
+							end
+						end
+					end
+				end
+			until true
+			if centerCard then
+				centerCard:stop_hover()
+				G.jokers:remove_card(centerCard)
+				centerCard:remove()
+			end
+			centerCard = nil
+			return result
+		end
+		---
 		-- @noSelf
 		-- @example
 		local function run()
-			local mod_filter = filterListFromString(G.EXPORT_FILTER or "")
-			local clean_filter = {}
-			if #mod_filter == 1 and mod_filter[1] == "" then
-				clean_filter[#clean_filter + 1] = "Balatro"
-				for k in pairs(SMODS.Mods) do
-					clean_filter[#clean_filter + 1] = k
-				end
-			else
-				for ____, v in ipairs(mod_filter) do
-					if v == "Balatro" then
-						clean_filter[#clean_filter + 1] = "Balatro"
-					end
-					if SMODS.Mods[v] then
-						clean_filter[#clean_filter + 1] = v
-					end
-				end
-			end
-			local card = nil
+			local rawFilter = __TS__ArrayMap(
+				__TS__StringSplit(
+					__TS__StringReplaceAll(G.EXPORT_FILTER or "", " ", ""),
+					","
+				),
+				function(____, item) return __TS__StringTrim(item) end
+			)
+			local modFilter = #rawFilter == 1 and rawFilter[1] == "" and ({
+				"Balatro",
+				unpack(__TS__ObjectKeys(SMODS.Mods))
+			}) or __TS__ArrayFilter(
+				rawFilter,
+				function(____, modString) return modString == "Balatro" or SMODS.Mods[modString] ~= nil end
+			)
 			if not love.filesystem.getInfo(output_root) then
 				love.filesystem.createDirectory(output_root)
 			end
@@ -4451,272 +4804,424 @@ ____modules = {
 				love.filesystem.createDirectory(output_root .. "images")
 			end
 			local keys = __TS__ArrayToSorted(__TS__ObjectKeys(G.P_CENTERS))
-			for ____, key in ipairs(keys) do
-				local v = G.P_CENTERS[key]
-				if not v.mod then
-					v.mod = {}
-					v.mod.id = "Balatro"
+			local groupedKeys = __TS__MapGroupBy(
+				__TS__ArrayFilter(
+					__TS__ObjectEntries(G.P_CENTERS),
+					function(____, ____bindingPattern0)
+						local center
+						local key = ____bindingPattern0[1]
+						center = ____bindingPattern0[2]
+						return center.set ~= nil
+					end
+				),
+				function(____, ____bindingPattern0)
+					local center
+					local key = ____bindingPattern0[1]
+					center = ____bindingPattern0[2]
+					local ____G_localization_misc_dictionary_index_0 = G.localization.misc.dictionary
+					["k_" .. tostring(center.set)]
+					if ____G_localization_misc_dictionary_index_0 == nil then
+						____G_localization_misc_dictionary_index_0 = center.set
+					end
+					return ____G_localization_misc_dictionary_index_0
 				end
-				if __TS__ArrayIncludes(clean_filter, v.mod.id) then
-					print((("Processing " .. key) .. " | ") .. tostring(v.set))
-					v.unlocked = true
-					v.discovered = true
-					repeat
-						local ____switch16 = v.set
-						local ____cond16 = ____switch16 == "Edition"
-						if ____cond16 then
-							card = Card(
-								G.jokers.T.x + G.jokers.T.w / 2,
-								G.jokers.T.y,
-								G.CARD_W,
-								G.CARD_H,
-								G.P_CARDS.empty,
-								v
-							)
-							card:set_edition(v.key, true, true)
-							card:hover()
-							processEdition(sets, card)
-							break
-						end
-						____cond16 = ____cond16 or ____switch16 == "Enhanced"
-						if ____cond16 then
-							card = SMODS.create_card({
-								area = G.jokers,
-								enhancement = v.key,
-								key = "c_base",
-								legendary = false,
-								no_edition = true,
-								set = "Default",
-								skip_materialize = true
-							})
-							card:hover()
-							processEnhancement(sets, card)
-							break
-						end
-						____cond16 = ____cond16 or ____switch16 == "Sticker"
-						if ____cond16 then
-							card = SMODS.create_card({
-								area = G.jokers,
-								key = "c_base",
-								legendary = false,
-								no_edition = true,
-								set = "Default",
-								skip_materialize = true,
-								stickers = { v.key }
-							})
-							card:hover()
-							break
-						end
-						do
-							if not v.set or v.set == "Other" or v.set == "Default" then
-							elseif not v.no_collection then
-								card = SMODS.create_card({
-									area = G.jokers,
-									key = v.key,
-									legendary = v.legendary,
-									no_edition = true,
-									rarity = v.rarity,
-									set = v.set,
-									skip_materialize = true
-								})
-								do
-									local function ____catch(____error)
-										print("Error hovering card: " .. tostring(v.key))
-										print(____error)
-										card = nil
+			)
+			__TS__ObjectAssign(
+				sets,
+				__TS__ObjectFromEntries(__TS__ArrayMap(
+					{ __TS__Spread(groupedKeys) },
+					function(____, ____bindingPattern0)
+						local centers
+						local set
+						set = ____bindingPattern0[1]
+						centers = ____bindingPattern0[2]
+						return {
+							set,
+							__TS__ArrayFilter(
+								__TS__ArrayMap(
+									__TS__ArrayFilter(
+										__TS__ArrayMap(
+											centers,
+											function(____, ____bindingPattern0)
+												local center
+												local key
+												key = ____bindingPattern0[1]
+												center = ____bindingPattern0[2]
+												local ____key_2 = key
+												local ____temp_1
+												if center.mod == nil then
+													____temp_1 = __TS__ObjectAssign({}, center, { mod = { id = "Balatro" } })
+												else
+													____temp_1 = center
+												end
+												return { ____key_2, ____temp_1 }
+											end
+										),
+										function(____, ____bindingPattern0)
+											local center
+											local key = ____bindingPattern0[1]
+											center = ____bindingPattern0[2]
+											return __TS__ArrayIncludes(modFilter, center.mod.id)
+										end
+									),
+									function(____, ____bindingPattern0)
+										local center
+										local key
+										key = ____bindingPattern0[1]
+										center = ____bindingPattern0[2]
+										print((("Processing " .. tostring(key)) .. " | ") .. tostring(center.set))
+										local result = processCenter(nil, center)
+										return { key, result }
 									end
-									local ____try, ____hasReturned = pcall(function()
-										card:hover()
-										process_card(sets, card)
-									end)
-									if not ____try then
-										____catch(____hasReturned)
-									end
+								),
+								function(____, ____bindingPattern0)
+									local result
+									local key = ____bindingPattern0[1]
+									result = ____bindingPattern0[2]
+									return result ~= nil
 								end
+							)
+						}
+					end
+				))
+			)
+			sets.Blind = __TS__ObjectFromEntries(__TS__ArrayMap(
+				__TS__ArrayFilter(
+					__TS__ArrayMap(
+						__TS__ObjectEntries(G.P_BLINDS),
+						function(____, ____bindingPattern0)
+							local blind
+							local key
+							key = ____bindingPattern0[1]
+							blind = ____bindingPattern0[2]
+							local ____key_4 = key
+							local ____temp_3
+							if blind.mod == nil then
+								____temp_3 = __TS__ObjectAssign({}, blind, { mod = { id = "Balatro" } })
+							else
+								____temp_3 = blind
 							end
+							return { ____key_4, ____temp_3 }
 						end
-					until true
-					if card then
-						card:stop_hover()
-						G.jokers:remove_card(card)
-						card:remove()
+					),
+					function(____, ____bindingPattern0)
+						local blind
+						local key = ____bindingPattern0[1]
+						blind = ____bindingPattern0[2]
+						return __TS__ArrayIncludes(modFilter, blind.mod.id)
 					end
-					card = nil
+				),
+				function(____, ____bindingPattern0)
+					local blind
+					local key
+					key = ____bindingPattern0[1]
+					blind = ____bindingPattern0[2]
+					print(("Processing " .. tostring(key)) .. " | Blind")
+					blind.discovered = true
+					local result = processBlind(blind)
+					return { key, result }
 				end
-			end
-			for k in pairs(G.P_BLINDS) do
-				local v = G.P_BLINDS[k]
-				if not v.mod then
-					v.mod = {}
-					v.mod.id = "Balatro"
-				end
-				if __TS__ArrayIncludes(clean_filter, v.mod.id) then
-					print((("Processing " .. k) .. " | ") .. tostring(v.set))
-					v.discovered = true
-					processBlind(sets, v)
-				end
-			end
-			if G.P_CURSES then
-				for k in pairs(G.P_CURSES) do
-					local v = G.P_CURSES[k]
-					if not v.mod then
-						v.mod = {}
-						v.mod.id = "Balatro"
+			))
+			sets.Seal = __TS__ObjectFromEntries(__TS__ArrayMap(
+				__TS__ArrayFilter(
+					__TS__ArrayMap(
+						__TS__ObjectEntries(G.P_SEALS),
+						function(____, ____bindingPattern0)
+							local seal
+							local key
+							key = ____bindingPattern0[1]
+							seal = ____bindingPattern0[2]
+							local ____key_6 = key
+							local ____temp_5
+							if seal.mod == nil then
+								____temp_5 = __TS__ObjectAssign({}, seal, { mod = { id = "Balatro" } })
+							else
+								____temp_5 = seal
+							end
+							return { ____key_6, ____temp_5 }
+						end
+					),
+					function(____, ____bindingPattern0)
+						local seal
+						local key = ____bindingPattern0[1]
+						seal = ____bindingPattern0[2]
+						return __TS__ArrayIncludes(modFilter, seal.mod.id)
 					end
-					if __TS__ArrayIncludes(clean_filter, v.mod.id) then
-						print((("Processing " .. k) .. " | ") .. tostring(v.set))
-						v.discovered = true
-						process_curse(sets, v)
-					end
-				end
-			end
-			if G.P_D6_SIDES then
-				for k in pairs(G.P_D6_SIDES) do
-					local v = G.P_D6_SIDES[k]
-					if not v.mod then
-						v.mod = {}
-						v.mod.id = "Balatro"
-					end
-					if __TS__ArrayIncludes(clean_filter, v.mod.id) then
-						print((("Processing " .. k) .. " | ") .. tostring(v.set))
-						process_d6_side(sets, v)
-					end
-				end
-			end
-			for k in pairs(G.P_SEALS) do
-				local v = G.P_SEALS[k]
-				if not v.mod then
-					v.mod = {}
-					v.mod.id = "Balatro"
-				end
-				if __TS__ArrayIncludes(clean_filter, v.mod.id) then
-					print((("Processing " .. k) .. " | ") .. tostring(v.set))
-					v.discovered = true
-					card = SMODS.create_card({
+				),
+				function(____, ____bindingPattern0)
+					local seal
+					local key
+					key = ____bindingPattern0[1]
+					seal = ____bindingPattern0[2]
+					print(("Processing " .. tostring(key)) .. " | Seal")
+					seal.discovered = true
+					local cardTemporary = SMODS.create_card({
 						area = G.jokers,
 						key = "c_base",
 						no_edition = true,
 						set = "Default",
 						skip_materialize = true
 					})
-					card:set_seal(v.key, true)
-					card:hover()
-					process_seal(sets, card, v)
-					card:stop_hover()
-					G.jokers:remove_card(card)
-					card:remove()
-					card = nil
+					cardTemporary:set_seal(seal.key, true)
+					cardTemporary:hover()
+					local result = processSeal(nil, cardTemporary, seal)
+					cardTemporary:stop_hover()
+					G.jokers:remove_card(cardTemporary)
+					cardTemporary:remove()
+					return { key, result }
 				end
-			end
+			))
 			if G.P_SKILLS then
-				for k in pairs(G.P_SKILLS) do
-					local v = G.P_SKILLS[k]
-					if not v.mod then
-						v.mod = {}
-						v.mod.id = "Balatro"
-					end
-					if __TS__ArrayIncludes(clean_filter, v.mod.id) then
-						print((("Processing " .. k) .. " | ") .. tostring(v.set))
-						v.discovered = true
-						card = Card(
+				sets.Skill = __TS__ObjectFromEntries(__TS__ArrayMap(
+					__TS__ArrayFilter(
+						__TS__ArrayMap(
+							__TS__ObjectEntries(G.P_SKILLS),
+							function(____, ____bindingPattern0)
+								local skill
+								local key
+								key = ____bindingPattern0[1]
+								skill = ____bindingPattern0[2]
+								local ____key_8 = key
+								local ____temp_7
+								if skill.mod == nil then
+									____temp_7 = __TS__ObjectAssign({}, skill, { mod = { id = "Balatro" } })
+								else
+									____temp_7 = skill
+								end
+								return { ____key_8, ____temp_7 }
+							end
+						),
+						function(____, ____bindingPattern0)
+							local skill
+							local key = ____bindingPattern0[1]
+							skill = ____bindingPattern0[2]
+							return __TS__ArrayIncludes(modFilter, skill.mod.id)
+						end
+					),
+					function(____, ____bindingPattern0)
+						local skill
+						local key
+						key = ____bindingPattern0[1]
+						skill = ____bindingPattern0[2]
+						print(("Processing " .. tostring(key)) .. " | Skill")
+						local skillCard = Card(
 							G.jokers.T.x + G.jokers.T.w / 2,
 							G.jokers.T.y,
 							G.CARD_W,
 							G.CARD_H,
 							nil,
-							v,
+							skill,
 							{ bypass_discovery_center = true }
 						)
-						card:hover()
-						process_card(sets, card)
-						if card ~= nil then
-							card:stop_hover()
-							G.jokers:remove_card(card)
-							card:remove()
+						skillCard:hover()
+						local result = processCard(nil, skillCard)
+						if skillCard ~= nil then
+							skillCard:stop_hover()
+							G.jokers:remove_card(skillCard)
+							skillCard:remove()
 						end
-						card = nil
+						return { key, result }
 					end
-				end
+				))
 			end
-			for k in pairs(G.P_STAKES) do
-				local v = G.P_STAKES[k]
-				if not v.mod then
-					v.mod = {}
-					v.mod.id = "Balatro"
+			sets.Stake = __TS__ObjectFromEntries(__TS__ArrayMap(
+				__TS__ArrayFilter(
+					__TS__ArrayMap(
+						__TS__ObjectEntries(G.P_STAKES),
+						function(____, ____bindingPattern0)
+							local stake
+							local key
+							key = ____bindingPattern0[1]
+							stake = ____bindingPattern0[2]
+							local ____key_10 = key
+							local ____temp_9
+							if stake.mod == nil then
+								____temp_9 = __TS__ObjectAssign({}, stake, { mod = { id = "Balatro" } })
+							else
+								____temp_9 = stake
+							end
+							return { ____key_10, ____temp_9 }
+						end
+					),
+					function(____, ____bindingPattern0)
+						local stake
+						local key = ____bindingPattern0[1]
+						stake = ____bindingPattern0[2]
+						return __TS__ArrayIncludes(modFilter, stake.mod.id)
+					end
+				),
+				function(____, ____bindingPattern0)
+					local stake
+					local key
+					key = ____bindingPattern0[1]
+					stake = ____bindingPattern0[2]
+					print(("Processing " .. tostring(key)) .. " | Stake")
+					stake.discovered = true
+					local result = processStake(nil, stake)
+					return { key, result }
 				end
-				if __TS__ArrayIncludes(clean_filter, v.mod.id) then
-					print((("Processing " .. k) .. " | ") .. tostring(v.set))
-					v.discovered = true
-					process_stake(sets, v)
-				end
-			end
+			))
 			for k in pairs(SMODS.Stickers) do
 			end
-			for k in pairs(G.P_TAGS) do
-				local v = G.P_TAGS[k]
-				if not v.mod then
-					v.mod = {}
-					v.mod.id = "Balatro"
-				end
-				if __TS__ArrayIncludes(clean_filter, v.mod.id) then
-					print((("Processing " .. k) .. " | ") .. tostring(v.set))
-					v.discovered = true
-					local temporary_tag = Tag(v.key, true)
+			sets.Tag = __TS__ObjectFromEntries(__TS__ArrayMap(
+				__TS__ArrayFilter(
+					__TS__ArrayMap(
+						__TS__ObjectEntries(G.P_TAGS),
+						function(____, ____bindingPattern0)
+							local tag
+							local key
+							key = ____bindingPattern0[1]
+							tag = ____bindingPattern0[2]
+							local ____key_12 = key
+							local ____temp_11
+							if tag.mod == nil then
+								____temp_11 = __TS__ObjectAssign({}, tag, { mod = { id = "Balatro" } })
+							else
+								____temp_11 = tag
+							end
+							return { ____key_12, ____temp_11 }
+						end
+					),
+					function(____, ____bindingPattern0)
+						local tag
+						local key = ____bindingPattern0[1]
+						tag = ____bindingPattern0[2]
+						return __TS__ArrayIncludes(modFilter, tag.mod.id)
+					end
+				),
+				function(____, ____bindingPattern0)
+					local tag
+					local key
+					key = ____bindingPattern0[1]
+					tag = ____bindingPattern0[2]
+					print(("Processing " .. tostring(key)) .. " | Tag")
+					local temporary_tag = Tag(key, true)
 					local _, temporary_tag_sprite = temporary_tag:generate_UI()
 					temporary_tag_sprite:hover()
-					processTag(
-						sets,
-						__TS__ObjectAssign({}, temporary_tag, v)
-					)
+					local result = processTag(__TS__ObjectAssign({}, temporary_tag, tag))
 					temporary_tag_sprite:stop_hover()
 					temporary_tag_sprite:remove()
-					temporary_tag = nil
+					return { key, result }
 				end
-			end
-			for k in pairs(G.P_CARDS) do
-				local v = G.P_CARDS[k]
-				if not v.mod then
-					v.mod = {}
-					v.mod.id = "Balatro"
-				end
-				if __TS__ArrayIncludes(clean_filter, v.mod.id) then
-					print((("Processing " .. k) .. " | ") .. tostring(v.suit))
-					card = create_playing_card(
-						{ front = G.P_CARDS[k] },
+			))
+			sets.PlayingCards = __TS__ObjectFromEntries(__TS__ArrayMap(
+				__TS__ArrayFilter(
+					__TS__ArrayMap(
+						__TS__ObjectEntries(G.P_CARDS),
+						function(____, ____bindingPattern0)
+							local playingCard
+							local key
+							key = ____bindingPattern0[1]
+							playingCard = ____bindingPattern0[2]
+							local ____key_14 = key
+							local ____temp_13
+							if playingCard.mod == nil then
+								____temp_13 = __TS__ObjectAssign({}, playingCard, { mod = { id = "Balatro" } })
+							else
+								____temp_13 = playingCard
+							end
+							return { ____key_14, ____temp_13 }
+						end
+					),
+					function(____, ____bindingPattern0)
+						local playingCard
+						local key = ____bindingPattern0[1]
+						playingCard = ____bindingPattern0[2]
+						return __TS__ArrayIncludes(modFilter, playingCard.mod.id)
+					end
+				),
+				function(____, ____bindingPattern0)
+					local playingCard
+					local key
+					key = ____bindingPattern0[1]
+					playingCard = ____bindingPattern0[2]
+					print(("Processing " .. tostring(key)) .. " | PlayingCard")
+					local card = create_playing_card(
+						{ front = G.P_CARDS[key] },
 						G.hand,
 						true,
 						true,
 						{ G.C.SECONDARY_SET.Spectral }
 					)
 					card:hover()
-					process_playing_card(sets, card, v, k)
+					local result = processPlayingCard(nil, card, playingCard, key)
 					if card ~= nil then
 						card:stop_hover()
 						G.jokers:remove_card(card)
 						card:remove()
 					end
+					return { key, result }
 				end
-			end
-			for k in pairs(SMODS.Suits) do
-				local v = SMODS.Suits[k]
-				if not v.mod then
-					v.mod = {}
-					v.mod.id = "Balatro"
+			))
+			sets.Suit = __TS__ObjectFromEntries(__TS__ArrayMap(
+				__TS__ArrayFilter(
+					__TS__ArrayMap(
+						__TS__ObjectEntries(SMODS.Suits),
+						function(____, ____bindingPattern0)
+							local suit
+							local key
+							key = ____bindingPattern0[1]
+							suit = ____bindingPattern0[2]
+							local ____key_16 = key
+							local ____temp_15
+							if suit.mod == nil then
+								____temp_15 = __TS__ObjectAssign({}, suit, { mod = { id = "Balatro" } })
+							else
+								____temp_15 = suit
+							end
+							return { ____key_16, ____temp_15 }
+						end
+					),
+					function(____, ____bindingPattern0)
+						local suit
+						local key = ____bindingPattern0[1]
+						suit = ____bindingPattern0[2]
+						return __TS__ArrayIncludes(modFilter, suit.mod.id)
+					end
+				),
+				function(____, ____bindingPattern0)
+					local suit
+					local key
+					key = ____bindingPattern0[1]
+					suit = ____bindingPattern0[2]
+					print(("Processing " .. tostring(key)) .. " | Suit")
+					return {
+						key,
+						processSuit(suit)
+					}
 				end
-				if __TS__ArrayIncludes(clean_filter, v.mod.id) then
-					print((("Processing " .. k) .. " | ") .. tostring(v.key))
-					processSuit(sets, v)
+			))
+			local baseMod = {
+				id = "Balatro",
+				badge_colour = G.C.RED,
+				can_load = true,
+				display_name = "Balatro",
+				name = "Balatro"
+			}
+			local modsEntries = {
+				{ "Balatro", baseMod },
+				unpack(__TS__ObjectEntries(SMODS.Mods))
+			}
+			sets.Mods = __TS__ArrayMap(
+				__TS__ArrayFilter(
+					modsEntries,
+					function(____, ____bindingPattern0)
+						local can_load
+						local id
+						local key = ____bindingPattern0[1]
+						id = ____bindingPattern0[2].id
+						can_load = ____bindingPattern0[2].can_load
+						return __TS__ArrayIncludes(modFilter, id) and can_load
+					end
+				),
+				function(____, ____bindingPattern0)
+					local mod
+					local key = ____bindingPattern0[1]
+					mod = ____bindingPattern0[2]
+					print((("Processing mod: " .. mod.id) .. " | ") .. tostring(mod.name))
+					return processMod(mod)
 				end
-			end
-			local base_mod = { id = "Balatro", badge_colour = G.C.RED, display_name = "Balatro" }
-			processMod(sets, base_mod)
-			for k in pairs(SMODS.Mods) do
-				local v = SMODS.Mods[k]
-				if __TS__ArrayIncludes(clean_filter, k) and v.can_load then
-					print((("Processing " .. k) .. " | ") .. tostring(v.name))
-					processMod(sets, v)
-				end
-			end
+			)
 			return sets
 		end
 		____exports.run = run

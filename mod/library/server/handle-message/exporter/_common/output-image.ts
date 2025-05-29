@@ -2,9 +2,12 @@
 import { ImageData } from "love.image";
 import output_root from "~/library/server/handle-message/_common/output_root.ts";
 
+const imagesFolderPath = `${output_root}images/`;
+
 type ParameterType = typeof BlindType |
 	typeof CardType |
 	typeof CardType.config.center |
+	typeof SMODS.Seal |
 	typeof SMODS.Suit |
 	typeof TagType |
 	{
@@ -98,6 +101,7 @@ const ensureAtlasImageData = (
 ) => {
 	if (
 		outputImages &&
+		card.atlas &&
 		atlasGroup?.[card.atlas] &&
 		atlasGroup[card.atlas].image_data === undefined
 	) {
@@ -105,19 +109,36 @@ const ensureAtlasImageData = (
 			item.name === card.set ||
 			(item.name === "tags" && card.set === "Tag") ||
 			(item.name === "centers" && card.set === "Enhanced") ||
+			(item.name === "centers" && card.set === "Back") ||
 			(item.name === "blind_chips" && card.set === "Blind") ||
+			(item.name === "chips" && card.set === "Stake") ||
+			(item.name === "Tarot" && card.set === "Spectral") ||
+			(item.name === "Tarot" && card.set === "Planet") ||
 			(item.name === "cards_1" && card.atlas === "cards_1")
 		)) ??
 		G.animation_atli.find((item) => (
 			item.name === card.set ||
 			(item.name === "tags" && card.set === "Tag") ||
 			(item.name === "centers" && card.set === "Enhanced") ||
+			(item.name === "centers" && card.set === "Back") ||
 			(item.name === "blind_chips" && card.set === "Blind") ||
+			(item.name === "chips" && card.set === "Stake") ||
+			(item.name === "Tarot" && card.set === "Spectral") ||
+			(item.name === "Tarot" && card.set === "Planet") ||
 			(item.name === "cards_1" && card.atlas === "cards_1")
 		));
 
 		if (atlasItem === undefined) {
 			print(`Atlas item not found for card: ${card.key}`);
+			print(`Looking for atlas with name: ${card.set} or ${card.atlas}`);
+			print("Available asset_atli names:");
+			for (const item of G.asset_atli) {
+				print(`  - ${item.name}`);
+			}
+			print("Available animation_atli names:");
+			for (const item of G.animation_atli) {
+				print(`  - ${item.name}`);
+			}
 			print(tprint(card));
 
 			return;
@@ -141,7 +162,7 @@ const getAtlasData = (
 ) => {
 	ensureAtlasImageData(card, { atlasGroup });
 
-	return atlasGroup?.[card.atlas]?.image_data;
+	return card.atlas ? atlasGroup?.[card.atlas]?.image_data : undefined;
 };
 
 /**
@@ -150,12 +171,17 @@ const getAtlasData = (
  * @param card - The card object for which to calculate dimensions.
  * @param options0 - The root object
  * @param options0.atlasGroup - The root object
+ * @throws Error when card.atlas is undefined
  * @noSelf
  */
 const getLogicalAndRegion = (
 	card: ParameterType,
 	{ atlasGroup }: { atlasGroup: typeof G.ANIMATION_ATLAS | typeof G.ASSET_ATLAS }
 ) => {
+	if (!card.atlas) {
+		throw new Error(`Card atlas is undefined for card: ${card.key}`);
+	}
+
 	const atlasScale = G.SETTINGS.GRAPHICS.texture_scaling;
 	const logicalW = atlasGroup[card.atlas].px;
 	const logicalH = atlasGroup[card.atlas].py;
@@ -384,6 +410,7 @@ const resizeImageData = (imageData: ImageData, logicalW: number, logicalH: numbe
  * @param options0.logicalW - The root object
  * @param options0.regionH - The root object
  * @param options0.regionW - The root object
+ * @noSelf
  */
 const outputFrame = (
 	{
@@ -423,15 +450,18 @@ const outputFrame = (
  * @param options0 - The root object
  * @param options0.atlasData - The root object
  * @param options0.card - The root object
+ * @param options0.fileNamePrefix - The root object
  * @param options0.filePath - The root object
  * @param options0.logicalH - The root object
  * @param options0.logicalW - The root object
  * @param options0.regionH - The root object
  * @param options0.regionW - The root object
+ * @noSelf
  */
 const outputAnimation = ({
 	atlasData,
 	card,
+	fileNamePrefix,
 	filePath,
 	logicalH,
 	logicalW,
@@ -440,16 +470,16 @@ const outputAnimation = ({
 }: {
 	atlasData: ImageData,
 	card: ParameterType,
+	fileNamePrefix: string,
 	filePath: string,
 	logicalH: number,
 	logicalW: number,
 	regionH: number,
 	regionW: number
 }) => {
-	const base_name = card.key.replaceAll("?", "_");
-	const image_folder = `${output_root}images/${base_name}/`;
+	const folderPath = `${imagesFolderPath}${fileNamePrefix}/`;
 
-	love.filesystem.createDirectory(image_folder);
+	love.filesystem.createDirectory(folderPath);
 	const frames = createAnimationFrames(card, atlasData, regionW, regionH);
 
 	outputFrame({
@@ -463,7 +493,7 @@ const outputAnimation = ({
 
 	for (const [index, frameData] of frames.entries()) {
 		outputFrame({
-			filePath: `${image_folder}${base_name}_${index}.png`,
+			filePath: `${folderPath}${fileNamePrefix}_${index}.png`,
 			frameData,
 			logicalH,
 			logicalW,
@@ -477,12 +507,12 @@ const outputAnimation = ({
 	const EXPORT_FPS = 10;
 	const FPS_FLAG = String(EXPORT_FPS);
 	const QUOTE = IS_WINDOWS ? "\"" : "'";
-	const INPUT_PATTERN = `${QUOTE}${image_folder}${base_name}_%d.png${QUOTE}`;
+	const INPUT_PATTERN = `${QUOTE}${folderPath}${fileNamePrefix}_%d.png${QUOTE}`;
 	const GIF_FPSFLAG = String((100 / 3) * (EXPORT_FPS / 30));
 	const filt_gif = `${QUOTE}format=rgba,fps=${GIF_FPSFLAG},split[a][b];[a]palettegen=reserve_transparent=1:stats_mode=single[p];[b][p]paletteuse=dither=bayer:bayer_scale=5:new=1${QUOTE}`;
-	const gif_path = `${output_root}images/${base_name}.gif`;
+	const gif_path = `${imagesFolderPath}${fileNamePrefix}.gif`;
 	const filt_apng = `${QUOTE}format=rgba,fps=${FPS_FLAG}${QUOTE}`;
-	const apng_path = `${output_root}images/${base_name}.apng`;
+	const apng_path = `${imagesFolderPath}${fileNamePrefix}.apng`;
 	const NULL_REDIRECT = IS_WINDOWS ? "> $null 2>&1" : "> /dev/null 2>&1";
 	const ffmpegGifCommand = `${SH_PREFIX}ffmpeg -y ${common} -f image2 -framerate ${FPS_FLAG} -start_number 0 -i ${INPUT_PATTERN} -filter_complex ${filt_gif} -gifflags +transdiff -color_primaries bt709 -colorspace bt709 -color_trc bt709 -loop 0 ${gif_path} ${NULL_REDIRECT}`;
 	const ffmpegApngCommand = `${SH_PREFIX}ffmpeg -y ${common} -f image2 -framerate ${FPS_FLAG} -start_number 0 -i ${INPUT_PATTERN} -filter_complex ${filt_apng} -plays 0 -pix_fmt rgba -compression_level 3 ${apng_path} ${NULL_REDIRECT}`;
@@ -494,22 +524,28 @@ const outputAnimation = ({
 /**
  *
  * @param card
+ * @param prefix
+ * @noSelf
  */
-const outputImage = (card: ParameterType) => {
+const outputImage = (card: ParameterType, prefix = "") => {
 	let atlasGroup = G.ASSET_ATLAS;
 
 	if (card.set === "Blind") {
 		atlasGroup = G.ANIMATION_ATLAS;
 	}
+
 	assignAtlasIfNeeded(card);
-	print("outputImage: start");
+
 	const atlasData = getAtlasData(card, { atlasGroup });
 
 	if (!outputImages || !atlasData) {
 		return;
 	}
-	print("outputImage: crop & resize");
-	const filePath = `${output_root}images/${card.key.replaceAll("?", "_")}.png`;
+
+	const fileNamePrefix = `${prefix}${card.key.replaceAll("?", "_")}`;
+
+	const filePath = `${imagesFolderPath}${fileNamePrefix}.png`;
+
 	const {
 		logicalH, logicalW, regionH, regionW
 	} = getLogicalAndRegion(card, { atlasGroup });
@@ -518,6 +554,7 @@ const outputImage = (card: ParameterType) => {
 		outputAnimation({
 			atlasData,
 			card,
+			fileNamePrefix,
 			filePath,
 			logicalH,
 			logicalW,
@@ -543,7 +580,6 @@ const outputImage = (card: ParameterType) => {
 		imageData = resizeImageData(imageData, logicalW, logicalH);
 	}
 	saveImageData(imageData, filePath);
-	print("outputImage: done");
 };
 
 export default outputImage;

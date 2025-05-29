@@ -13,24 +13,6 @@ import useSocket from "../../(_common)/use-socket.js";
  * @import { Signal } from "@preact/signals";
  */
 
-const test = [
-	[
-		["Jokers"],
-		["Decks"],
-		["Vouchers"],
-		["Consumables", "orange"]
-	],
-	[
-		["Enhanced Cards"],
-		["Seals"],
-		["Editions"],
-		["Booster Packs"],
-		["Tags"],
-		["Blinds"],
-		["Other"]
-	]
-];
-
 /**
  * @typedef {object} RawButtonConfig
  * @property {string} key
@@ -50,6 +32,9 @@ const topRawButtonConfigs = [
 	{
 		key: "deck",
 		setKey: "Back"
+	},
+	{
+		key: "stake"
 	},
 	{
 		key: "voucher"

@@ -48,7 +48,8 @@ const eslintConfig = [
 			"jsdoc/check-tag-names": "off",
 			"jsdoc/require-example": "off",
 			"jsdoc/require-param-type": "off",
-			"jsdoc/require-returns": "off"
+			"jsdoc/require-returns": "off",
+			"unicorn/no-useless-fallback-in-spread": "off"
 		}
 	},
 	{

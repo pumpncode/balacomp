@@ -4,8 +4,6 @@ const sets = {
 	Booster: {},
 	Consumables: {},
 	Contract: {},
-	Curse: {},
-	"D6 Side": {},
 	Edition: {},
 	Enhanced: {},
 	Joker: {},

@@ -7,7 +7,7 @@ import outputImage from "./_common/output-image.ts";
  * @noSelf
  * @example
  */
-const processSuit = (sets: any, suit: typeof SMODS.Suit) => {
+const processSuit = (suit: typeof SMODS.Suit) => {
 	const item: any = {};
 
 	const input = {
@@ -19,7 +19,7 @@ const processSuit = (sets: any, suit: typeof SMODS.Suit) => {
 		}
 	};
 
-	outputImage(input);
+	outputImage(input, "suit_");
 
 	item.name = G.localization.misc.suits_plural[suit.key];
 	item.key = suit.key;
@@ -27,7 +27,7 @@ const processSuit = (sets: any, suit: typeof SMODS.Suit) => {
 		item.mod = suit.mod.id;
 	}
 	if (item.name) {
-		sets.Suit[item.key] = item;
+		return item;
 	}
 };
 

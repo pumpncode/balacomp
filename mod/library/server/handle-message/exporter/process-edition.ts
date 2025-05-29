@@ -8,7 +8,7 @@ import { output_rendered_image } from "./process-edition/output_rendered_image";
  * @noSelf
  * @example
  */
-const processEdition = (sets: any, card: typeof CardType) => {
+const processEdition = (card: typeof CardType) => {
 	const item: any = {};
 
 	const { center } = card.config;
@@ -31,8 +31,7 @@ const processEdition = (sets: any, card: typeof CardType) => {
 	item.image_url = `images/${center.key.replace("?", "_")}.png`;
 
 	if (item.name !== undefined) {
-		sets[item.set] ??= {};
-		sets[item.set][item.key] = item;
+		return item;
 	}
 };
 
