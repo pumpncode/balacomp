@@ -152,7 +152,7 @@ const run = () => {
 	const groupedKeys = Map.groupBy(
 		Object.entries(G.P_CENTERS)
 			.filter(([key, center]) => center.set !== undefined),
-		([key, center]) => G.localization.misc.dictionary[`k_${center.set}`] ?? center.set
+		([key, center]) => G.localization.misc.dictionary[`k_${center.set.toLowerCase()}`] ?? center.set
 	);
 
 	Object.assign(
@@ -170,7 +170,7 @@ const run = () => {
 									mod: { id: "Balatro" }
 								}
 								: center
-						])
+						] as const)
 						.filter(([key, center]) => modFilter.includes(center.mod.id))
 						.map(([key, center]) => {
 							print(`Processing ${key} | ${center.set}`);

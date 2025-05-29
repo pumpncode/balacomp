@@ -151,7 +151,10 @@ export interface Game extends LuaObject {
 		Tarot_Planet?: Record<string, any>[],
 		Voucher?: Record<string, any>[]
 	},
-	P_CENTERS: Record<string, any>,
+	P_CENTERS: Record<string, {
+		[key: string]: any,
+		set: string
+	}>,
 	P_CURSES?: Record<string, any>,
 	P_D6_SIDES?: Record<string, any>,
 	P_SEALS: Record<string, any>,

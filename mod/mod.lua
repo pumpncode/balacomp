@@ -4819,7 +4819,7 @@ ____modules = {
 					local key = ____bindingPattern0[1]
 					center = ____bindingPattern0[2]
 					local ____G_localization_misc_dictionary_index_0 = G.localization.misc.dictionary
-					["k_" .. tostring(center.set)]
+					["k_" .. string.lower(center.set)]
 					if ____G_localization_misc_dictionary_index_0 == nil then
 						____G_localization_misc_dictionary_index_0 = center.set
 					end
@@ -4847,14 +4847,12 @@ ____modules = {
 												local key
 												key = ____bindingPattern0[1]
 												center = ____bindingPattern0[2]
-												local ____key_2 = key
-												local ____temp_1
-												if center.mod == nil then
-													____temp_1 = __TS__ObjectAssign({}, center, { mod = { id = "Balatro" } })
-												else
-													____temp_1 = center
-												end
-												return { ____key_2, ____temp_1 }
+												return {
+													key,
+													center.mod == nil and
+													__TS__ObjectAssign({}, center, { mod = { id = "Balatro" } }) or
+													center
+												}
 											end
 										),
 										function(____, ____bindingPattern0)
@@ -4869,7 +4867,7 @@ ____modules = {
 										local key
 										key = ____bindingPattern0[1]
 										center = ____bindingPattern0[2]
-										print((("Processing " .. tostring(key)) .. " | ") .. tostring(center.set))
+										print((("Processing " .. key) .. " | ") .. center.set)
 										local result = processCenter(nil, center)
 										return { key, result }
 									end
@@ -4894,14 +4892,14 @@ ____modules = {
 							local key
 							key = ____bindingPattern0[1]
 							blind = ____bindingPattern0[2]
-							local ____key_4 = key
-							local ____temp_3
+							local ____key_2 = key
+							local ____temp_1
 							if blind.mod == nil then
-								____temp_3 = __TS__ObjectAssign({}, blind, { mod = { id = "Balatro" } })
+								____temp_1 = __TS__ObjectAssign({}, blind, { mod = { id = "Balatro" } })
 							else
-								____temp_3 = blind
+								____temp_1 = blind
 							end
-							return { ____key_4, ____temp_3 }
+							return { ____key_2, ____temp_1 }
 						end
 					),
 					function(____, ____bindingPattern0)
@@ -4931,14 +4929,14 @@ ____modules = {
 							local key
 							key = ____bindingPattern0[1]
 							seal = ____bindingPattern0[2]
-							local ____key_6 = key
-							local ____temp_5
+							local ____key_4 = key
+							local ____temp_3
 							if seal.mod == nil then
-								____temp_5 = __TS__ObjectAssign({}, seal, { mod = { id = "Balatro" } })
+								____temp_3 = __TS__ObjectAssign({}, seal, { mod = { id = "Balatro" } })
 							else
-								____temp_5 = seal
+								____temp_3 = seal
 							end
-							return { ____key_6, ____temp_5 }
+							return { ____key_4, ____temp_3 }
 						end
 					),
 					function(____, ____bindingPattern0)
@@ -4981,14 +4979,14 @@ ____modules = {
 								local key
 								key = ____bindingPattern0[1]
 								skill = ____bindingPattern0[2]
-								local ____key_8 = key
-								local ____temp_7
+								local ____key_6 = key
+								local ____temp_5
 								if skill.mod == nil then
-									____temp_7 = __TS__ObjectAssign({}, skill, { mod = { id = "Balatro" } })
+									____temp_5 = __TS__ObjectAssign({}, skill, { mod = { id = "Balatro" } })
 								else
-									____temp_7 = skill
+									____temp_5 = skill
 								end
-								return { ____key_8, ____temp_7 }
+								return { ____key_6, ____temp_5 }
 							end
 						),
 						function(____, ____bindingPattern0)
@@ -5033,14 +5031,14 @@ ____modules = {
 							local key
 							key = ____bindingPattern0[1]
 							stake = ____bindingPattern0[2]
-							local ____key_10 = key
-							local ____temp_9
+							local ____key_8 = key
+							local ____temp_7
 							if stake.mod == nil then
-								____temp_9 = __TS__ObjectAssign({}, stake, { mod = { id = "Balatro" } })
+								____temp_7 = __TS__ObjectAssign({}, stake, { mod = { id = "Balatro" } })
 							else
-								____temp_9 = stake
+								____temp_7 = stake
 							end
-							return { ____key_10, ____temp_9 }
+							return { ____key_8, ____temp_7 }
 						end
 					),
 					function(____, ____bindingPattern0)
@@ -5072,14 +5070,14 @@ ____modules = {
 							local key
 							key = ____bindingPattern0[1]
 							tag = ____bindingPattern0[2]
-							local ____key_12 = key
-							local ____temp_11
+							local ____key_10 = key
+							local ____temp_9
 							if tag.mod == nil then
-								____temp_11 = __TS__ObjectAssign({}, tag, { mod = { id = "Balatro" } })
+								____temp_9 = __TS__ObjectAssign({}, tag, { mod = { id = "Balatro" } })
 							else
-								____temp_11 = tag
+								____temp_9 = tag
 							end
-							return { ____key_12, ____temp_11 }
+							return { ____key_10, ____temp_9 }
 						end
 					),
 					function(____, ____bindingPattern0)
@@ -5113,14 +5111,14 @@ ____modules = {
 							local key
 							key = ____bindingPattern0[1]
 							playingCard = ____bindingPattern0[2]
-							local ____key_14 = key
-							local ____temp_13
+							local ____key_12 = key
+							local ____temp_11
 							if playingCard.mod == nil then
-								____temp_13 = __TS__ObjectAssign({}, playingCard, { mod = { id = "Balatro" } })
+								____temp_11 = __TS__ObjectAssign({}, playingCard, { mod = { id = "Balatro" } })
 							else
-								____temp_13 = playingCard
+								____temp_11 = playingCard
 							end
-							return { ____key_14, ____temp_13 }
+							return { ____key_12, ____temp_11 }
 						end
 					),
 					function(____, ____bindingPattern0)
@@ -5162,14 +5160,14 @@ ____modules = {
 							local key
 							key = ____bindingPattern0[1]
 							suit = ____bindingPattern0[2]
-							local ____key_16 = key
-							local ____temp_15
+							local ____key_14 = key
+							local ____temp_13
 							if suit.mod == nil then
-								____temp_15 = __TS__ObjectAssign({}, suit, { mod = { id = "Balatro" } })
+								____temp_13 = __TS__ObjectAssign({}, suit, { mod = { id = "Balatro" } })
 							else
-								____temp_15 = suit
+								____temp_13 = suit
 							end
-							return { ____key_16, ____temp_15 }
+							return { ____key_14, ____temp_13 }
 						end
 					),
 					function(____, ____bindingPattern0)
