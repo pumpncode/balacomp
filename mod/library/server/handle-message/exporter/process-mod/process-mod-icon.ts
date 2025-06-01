@@ -5,7 +5,12 @@ import outputImage from "../_common/output-image.ts";
  * @param mod
  */
 const processModIcon = (mod: any): string => {
-	let atlas = mod.prefix ? `${mod.prefix}_modicon` : "modicon";
+	let atlas = "modicon";
+
+	if (mod.prefix !== undefined && G.ASSET_ATLAS[`${mod.prefix}_modicon`] !== undefined) {
+		atlas = `${mod.prefix}_modicon`;
+	}
+
 	let pos = {
 		x: 0,
 		y: 0
@@ -30,7 +35,7 @@ const processModIcon = (mod: any): string => {
 
 	outputImage(card);
 
-	return `images/${key.replace("?", "_")}.png`;
+	return `${key.replace("?", "_")}.png`;
 };
 
 export default processModIcon;

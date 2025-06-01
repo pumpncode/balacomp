@@ -1,4 +1,4 @@
-@import "https://rsms.me/inter/inter.css";
+/* @import "https://rsms.me/inter/inter.css"; */
 
 @import "tailwindcss";
 
@@ -156,136 +156,258 @@
 }
 
 @utility rounded-pixel-6-* {
-	&::after {
-		content: "";
-		@apply absolute size-full top-0 left-0 -z-1;
-		clip-path: polygon(
-			0px calc(100% - calc(4px * --value(integer))),
-			calc(1px * --value(integer)) calc(100% - calc(4px * --value(integer))),
-			calc(1px * --value(integer)) calc(100% - calc(2px * --value(integer))),
-			calc(2px * --value(integer)) calc(100% - calc(2px * --value(integer))),
-			calc(2px * --value(integer)) calc(100% - calc(1px * --value(integer))),
-			calc(4px * --value(integer)) calc(100% - calc(1px * --value(integer))),
-			calc(4px * --value(integer)) 100%,
-			calc(100% - calc(4px * --value(integer))) 100%,
-			calc(100% - calc(4px * --value(integer))) calc(100% - calc(1px * --value(integer))),
-			calc(100% - calc(2px * --value(integer))) calc(100% - calc(1px * --value(integer))),
-			calc(100% - calc(2px * --value(integer))) calc(100% - calc(2px * --value(integer))),
-			calc(100% - calc(1px * --value(integer))) calc(100% - calc(2px * --value(integer))),
-			calc(100% - calc(1px * --value(integer))) calc(100% - calc(4px * --value(integer))),
-			100% calc(100% - calc(4px * --value(integer))),
-			100% calc(4px * --value(integer)),
-			calc(100% - calc(1px * --value(integer))) calc(4px * --value(integer)),
-			calc(100% - calc(1px * --value(integer))) calc(2px * --value(integer)),
-			calc(100% - calc(2px * --value(integer))) calc(2px * --value(integer)),
-			calc(100% - calc(2px * --value(integer))) calc(1px * --value(integer)),
-			calc(100% - calc(4px * --value(integer))) calc(1px * --value(integer)),
-			calc(100% - calc(4px * --value(integer))) 0px,
-			calc(4px * --value(integer)) 0px,
-			calc(4px * --value(integer)) calc(1px * --value(integer)),
-			calc(2px * --value(integer)) calc(1px * --value(integer)),
-			calc(2px * --value(integer)) calc(2px * --value(integer)),
-			calc(1px * --value(integer)) calc(2px * --value(integer)),
-			calc(1px * --value(integer)) calc(4px * --value(integer)),
-			0px calc(4px * --value(integer))
-		);
+	clip-path: polygon(
+		0px calc(100% - calc(4px * --value(integer))),
+		calc(1px * --value(integer)) calc(100% - calc(4px * --value(integer))),
+		calc(1px * --value(integer)) calc(100% - calc(2px * --value(integer))),
+		calc(2px * --value(integer)) calc(100% - calc(2px * --value(integer))),
+		calc(2px * --value(integer)) calc(100% - calc(1px * --value(integer))),
+		calc(4px * --value(integer)) calc(100% - calc(1px * --value(integer))),
+		calc(4px * --value(integer)) 100%,
+		calc(100% - calc(4px * --value(integer))) 100%,
+		calc(100% - calc(4px * --value(integer))) calc(100% - calc(1px * --value(integer))),
+		calc(100% - calc(2px * --value(integer))) calc(100% - calc(1px * --value(integer))),
+		calc(100% - calc(2px * --value(integer))) calc(100% - calc(2px * --value(integer))),
+		calc(100% - calc(1px * --value(integer))) calc(100% - calc(2px * --value(integer))),
+		calc(100% - calc(1px * --value(integer))) calc(100% - calc(4px * --value(integer))),
+		100% calc(100% - calc(4px * --value(integer))),
+		100% calc(4px * --value(integer)),
+		calc(100% - calc(1px * --value(integer))) calc(4px * --value(integer)),
+		calc(100% - calc(1px * --value(integer))) calc(2px * --value(integer)),
+		calc(100% - calc(2px * --value(integer))) calc(2px * --value(integer)),
+		calc(100% - calc(2px * --value(integer))) calc(1px * --value(integer)),
+		calc(100% - calc(4px * --value(integer))) calc(1px * --value(integer)),
+		calc(100% - calc(4px * --value(integer))) 0px,
+		calc(4px * --value(integer)) 0px,
+		calc(4px * --value(integer)) calc(1px * --value(integer)),
+		calc(2px * --value(integer)) calc(1px * --value(integer)),
+		calc(2px * --value(integer)) calc(2px * --value(integer)),
+		calc(1px * --value(integer)) calc(2px * --value(integer)),
+		calc(1px * --value(integer)) calc(4px * --value(integer)),
+		0px calc(4px * --value(integer))
+	);
+
+	&[class*="drop-shadow-"]:not([class~="drop-shadow-dynamic"], [class~="drop-shadow-none"]),
+	&[class~="drop-shadow-dynamic"][style*="--shadow"] {
+		clip-path: none;
+		&::after {
+			content: "";
+			@apply absolute size-full top-0 left-0 -z-1;
+			clip-path: polygon(
+				0px calc(100% - calc(4px * --value(integer))),
+				calc(1px * --value(integer)) calc(100% - calc(4px * --value(integer))),
+				calc(1px * --value(integer)) calc(100% - calc(2px * --value(integer))),
+				calc(2px * --value(integer)) calc(100% - calc(2px * --value(integer))),
+				calc(2px * --value(integer)) calc(100% - calc(1px * --value(integer))),
+				calc(4px * --value(integer)) calc(100% - calc(1px * --value(integer))),
+				calc(4px * --value(integer)) 100%,
+				calc(100% - calc(4px * --value(integer))) 100%,
+				calc(100% - calc(4px * --value(integer))) calc(100% - calc(1px * --value(integer))),
+				calc(100% - calc(2px * --value(integer))) calc(100% - calc(1px * --value(integer))),
+				calc(100% - calc(2px * --value(integer))) calc(100% - calc(2px * --value(integer))),
+				calc(100% - calc(1px * --value(integer))) calc(100% - calc(2px * --value(integer))),
+				calc(100% - calc(1px * --value(integer))) calc(100% - calc(4px * --value(integer))),
+				100% calc(100% - calc(4px * --value(integer))),
+				100% calc(4px * --value(integer)),
+				calc(100% - calc(1px * --value(integer))) calc(4px * --value(integer)),
+				calc(100% - calc(1px * --value(integer))) calc(2px * --value(integer)),
+				calc(100% - calc(2px * --value(integer))) calc(2px * --value(integer)),
+				calc(100% - calc(2px * --value(integer))) calc(1px * --value(integer)),
+				calc(100% - calc(4px * --value(integer))) calc(1px * --value(integer)),
+				calc(100% - calc(4px * --value(integer))) 0px,
+				calc(4px * --value(integer)) 0px,
+				calc(4px * --value(integer)) calc(1px * --value(integer)),
+				calc(2px * --value(integer)) calc(1px * --value(integer)),
+				calc(2px * --value(integer)) calc(2px * --value(integer)),
+				calc(1px * --value(integer)) calc(2px * --value(integer)),
+				calc(1px * --value(integer)) calc(4px * --value(integer)),
+				0px calc(4px * --value(integer))
+			);
+		}
 	}
 }
 
 @utility rounded-pixel-7-* {
-	&::after {
-		content: "";
-		@apply absolute size-full top-0 left-0 -z-1;
-		clip-path: polygon(
-			0px calc(100% - calc(4px * --value(integer))),
-			calc(1px * --value(integer)) calc(100% - calc(4px * --value(integer))),
-			calc(1px * --value(integer)) calc(100% - calc(3px * --value(integer))),
-			calc(2px * --value(integer)) calc(100% - calc(3px * --value(integer))),
-			calc(2px * --value(integer)) calc(100% - calc(2px * --value(integer))),
-			calc(3px * --value(integer)) calc(100% - calc(2px * --value(integer))),
-			calc(3px * --value(integer)) calc(100% - calc(1px * --value(integer))),
-			calc(4px * --value(integer)) calc(100% - calc(1px * --value(integer))),
-			calc(4px * --value(integer)) 100%,
-			calc(100% - calc(4px * --value(integer))) 100%,
-			calc(100% - calc(4px * --value(integer))) calc(100% - calc(1px * --value(integer))),
-			calc(100% - calc(3px * --value(integer))) calc(100% - calc(1px * --value(integer))),
-			calc(100% - calc(3px * --value(integer))) calc(100% - calc(2px * --value(integer))),
-			calc(100% - calc(2px * --value(integer))) calc(100% - calc(2px * --value(integer))),
-			calc(100% - calc(2px * --value(integer))) calc(100% - calc(3px * --value(integer))),
-			calc(100% - calc(1px * --value(integer))) calc(100% - calc(3px * --value(integer))),
-			calc(100% - calc(1px * --value(integer))) calc(100% - calc(4px * --value(integer))),
-			100% calc(100% - calc(4px * --value(integer))),
-			100% calc(4px * --value(integer)),
-			calc(100% - calc(1px * --value(integer))) calc(4px * --value(integer)),
-			calc(100% - calc(1px * --value(integer))) calc(3px * --value(integer)),
-			calc(100% - calc(2px * --value(integer))) calc(3px * --value(integer)),
-			calc(100% - calc(2px * --value(integer))) calc(2px * --value(integer)),
-			calc(100% - calc(3px * --value(integer))) calc(2px * --value(integer)),
-			calc(100% - calc(3px * --value(integer))) calc(1px * --value(integer)),
-			calc(100% - calc(4px * --value(integer))) calc(1px * --value(integer)),
-			calc(100% - calc(4px * --value(integer))) 0px,
-			calc(4px * --value(integer)) 0px,
-			calc(4px * --value(integer)) calc(1px * --value(integer)),
-			calc(3px * --value(integer)) calc(1px * --value(integer)),
-			calc(3px * --value(integer)) calc(2px * --value(integer)),
-			calc(2px * --value(integer)) calc(2px * --value(integer)),
-			calc(2px * --value(integer)) calc(3px * --value(integer)),
-			calc(1px * --value(integer)) calc(3px * --value(integer)),
-			calc(1px * --value(integer)) calc(4px * --value(integer)),
-			0px calc(4px * --value(integer))
-		);
+	clip-path: polygon(
+		0px calc(100% - calc(4px * --value(integer))),
+		calc(1px * --value(integer)) calc(100% - calc(4px * --value(integer))),
+		calc(1px * --value(integer)) calc(100% - calc(3px * --value(integer))),
+		calc(2px * --value(integer)) calc(100% - calc(3px * --value(integer))),
+		calc(2px * --value(integer)) calc(100% - calc(2px * --value(integer))),
+		calc(3px * --value(integer)) calc(100% - calc(2px * --value(integer))),
+		calc(3px * --value(integer)) calc(100% - calc(1px * --value(integer))),
+		calc(4px * --value(integer)) calc(100% - calc(1px * --value(integer))),
+		calc(4px * --value(integer)) 100%,
+		calc(100% - calc(4px * --value(integer))) 100%,
+		calc(100% - calc(4px * --value(integer))) calc(100% - calc(1px * --value(integer))),
+		calc(100% - calc(3px * --value(integer))) calc(100% - calc(1px * --value(integer))),
+		calc(100% - calc(3px * --value(integer))) calc(100% - calc(2px * --value(integer))),
+		calc(100% - calc(2px * --value(integer))) calc(100% - calc(2px * --value(integer))),
+		calc(100% - calc(2px * --value(integer))) calc(100% - calc(3px * --value(integer))),
+		calc(100% - calc(1px * --value(integer))) calc(100% - calc(3px * --value(integer))),
+		calc(100% - calc(1px * --value(integer))) calc(100% - calc(4px * --value(integer))),
+		100% calc(100% - calc(4px * --value(integer))),
+		100% calc(4px * --value(integer)),
+		calc(100% - calc(1px * --value(integer))) calc(4px * --value(integer)),
+		calc(100% - calc(1px * --value(integer))) calc(3px * --value(integer)),
+		calc(100% - calc(2px * --value(integer))) calc(3px * --value(integer)),
+		calc(100% - calc(2px * --value(integer))) calc(2px * --value(integer)),
+		calc(100% - calc(3px * --value(integer))) calc(2px * --value(integer)),
+		calc(100% - calc(3px * --value(integer))) calc(1px * --value(integer)),
+		calc(100% - calc(4px * --value(integer))) calc(1px * --value(integer)),
+		calc(100% - calc(4px * --value(integer))) 0px,
+		calc(4px * --value(integer)) 0px,
+		calc(4px * --value(integer)) calc(1px * --value(integer)),
+		calc(3px * --value(integer)) calc(1px * --value(integer)),
+		calc(3px * --value(integer)) calc(2px * --value(integer)),
+		calc(2px * --value(integer)) calc(2px * --value(integer)),
+		calc(2px * --value(integer)) calc(3px * --value(integer)),
+		calc(1px * --value(integer)) calc(3px * --value(integer)),
+		calc(1px * --value(integer)) calc(4px * --value(integer)),
+		0px calc(4px * --value(integer))
+	);
+
+	&[class*="drop-shadow-"]:not([class~="drop-shadow-dynamic"], [class~="drop-shadow-none"]),
+	&[class~="drop-shadow-dynamic"][style*="--shadow"] {
+		clip-path: none;
+		&::after {
+			content: "";
+			@apply absolute size-full top-0 left-0 -z-1;
+			clip-path: polygon(
+				0px calc(100% - calc(4px * --value(integer))),
+				calc(1px * --value(integer)) calc(100% - calc(4px * --value(integer))),
+				calc(1px * --value(integer)) calc(100% - calc(3px * --value(integer))),
+				calc(2px * --value(integer)) calc(100% - calc(3px * --value(integer))),
+				calc(2px * --value(integer)) calc(100% - calc(2px * --value(integer))),
+				calc(3px * --value(integer)) calc(100% - calc(2px * --value(integer))),
+				calc(3px * --value(integer)) calc(100% - calc(1px * --value(integer))),
+				calc(4px * --value(integer)) calc(100% - calc(1px * --value(integer))),
+				calc(4px * --value(integer)) 100%,
+				calc(100% - calc(4px * --value(integer))) 100%,
+				calc(100% - calc(4px * --value(integer))) calc(100% - calc(1px * --value(integer))),
+				calc(100% - calc(3px * --value(integer))) calc(100% - calc(1px * --value(integer))),
+				calc(100% - calc(3px * --value(integer))) calc(100% - calc(2px * --value(integer))),
+				calc(100% - calc(2px * --value(integer))) calc(100% - calc(2px * --value(integer))),
+				calc(100% - calc(2px * --value(integer))) calc(100% - calc(3px * --value(integer))),
+				calc(100% - calc(1px * --value(integer))) calc(100% - calc(3px * --value(integer))),
+				calc(100% - calc(1px * --value(integer))) calc(100% - calc(4px * --value(integer))),
+				100% calc(100% - calc(4px * --value(integer))),
+				100% calc(4px * --value(integer)),
+				calc(100% - calc(1px * --value(integer))) calc(4px * --value(integer)),
+				calc(100% - calc(1px * --value(integer))) calc(3px * --value(integer)),
+				calc(100% - calc(2px * --value(integer))) calc(3px * --value(integer)),
+				calc(100% - calc(2px * --value(integer))) calc(2px * --value(integer)),
+				calc(100% - calc(3px * --value(integer))) calc(2px * --value(integer)),
+				calc(100% - calc(3px * --value(integer))) calc(1px * --value(integer)),
+				calc(100% - calc(4px * --value(integer))) calc(1px * --value(integer)),
+				calc(100% - calc(4px * --value(integer))) 0px,
+				calc(4px * --value(integer)) 0px,
+				calc(4px * --value(integer)) calc(1px * --value(integer)),
+				calc(3px * --value(integer)) calc(1px * --value(integer)),
+				calc(3px * --value(integer)) calc(2px * --value(integer)),
+				calc(2px * --value(integer)) calc(2px * --value(integer)),
+				calc(2px * --value(integer)) calc(3px * --value(integer)),
+				calc(1px * --value(integer)) calc(3px * --value(integer)),
+				calc(1px * --value(integer)) calc(4px * --value(integer)),
+				0px calc(4px * --value(integer))
+			);
+		}
 	}
 }
 
 @utility rounded-pixel-8-* {
-	&::after {
-		content: "";
-		@apply absolute size-full top-0 left-0 -z-1;
-		clip-path: polygon(
-			0px calc(100% - calc(5px * --value(integer))),
-			calc(1px * --value(integer)) calc(100% - calc(5px * --value(integer))),
-			calc(1px * --value(integer)) calc(100% - calc(3px * --value(integer))),
-			calc(2px * --value(integer)) calc(100% - calc(3px * --value(integer))),
-			calc(2px * --value(integer)) calc(100% - calc(2px * --value(integer))),
-			calc(3px * --value(integer)) calc(100% - calc(2px * --value(integer))),
-			calc(3px * --value(integer)) calc(100% - calc(1px * --value(integer))),
-			calc(5px * --value(integer)) calc(100% - calc(1px * --value(integer))),
-			calc(5px * --value(integer)) 100%,
-			calc(100% - calc(5px * --value(integer))) 100%,
-			calc(100% - calc(5px * --value(integer))) calc(100% - calc(1px * --value(integer))),
-			calc(100% - calc(3px * --value(integer))) calc(100% - calc(1px * --value(integer))),
-			calc(100% - calc(3px * --value(integer))) calc(100% - calc(2px * --value(integer))),
-			calc(100% - calc(2px * --value(integer))) calc(100% - calc(2px * --value(integer))),
-			calc(100% - calc(2px * --value(integer))) calc(100% - calc(3px * --value(integer))),
-			calc(100% - calc(1px * --value(integer))) calc(100% - calc(3px * --value(integer))),
-			calc(100% - calc(1px * --value(integer))) calc(100% - calc(5px * --value(integer))),
-			100% calc(100% - calc(5px * --value(integer))),
-			100% calc(5px * --value(integer)),
-			calc(100% - calc(1px * --value(integer))) calc(5px * --value(integer)),
-			calc(100% - calc(1px * --value(integer))) calc(3px * --value(integer)),
-			calc(100% - calc(2px * --value(integer))) calc(3px * --value(integer)),
-			calc(100% - calc(2px * --value(integer))) calc(2px * --value(integer)),
-			calc(100% - calc(3px * --value(integer))) calc(2px * --value(integer)),
-			calc(100% - calc(3px * --value(integer))) calc(1px * --value(integer)),
-			calc(100% - calc(5px * --value(integer))) calc(1px * --value(integer)),
-			calc(100% - calc(5px * --value(integer))) 0px,
-			calc(5px * --value(integer)) 0px,
-			calc(5px * --value(integer)) calc(1px * --value(integer)),
-			calc(3px * --value(integer)) calc(1px * --value(integer)),
-			calc(3px * --value(integer)) calc(2px * --value(integer)),
-			calc(2px * --value(integer)) calc(2px * --value(integer)),
-			calc(2px * --value(integer)) calc(3px * --value(integer)),
-			calc(1px * --value(integer)) calc(3px * --value(integer)),
-			calc(1px * --value(integer)) calc(5px * --value(integer)),
-			0px calc(5px * --value(integer))
-		);
+	clip-path: polygon(
+		0px calc(100% - calc(5px * --value(integer))),
+		calc(1px * --value(integer)) calc(100% - calc(5px * --value(integer))),
+		calc(1px * --value(integer)) calc(100% - calc(3px * --value(integer))),
+		calc(2px * --value(integer)) calc(100% - calc(3px * --value(integer))),
+		calc(2px * --value(integer)) calc(100% - calc(2px * --value(integer))),
+		calc(3px * --value(integer)) calc(100% - calc(2px * --value(integer))),
+		calc(3px * --value(integer)) calc(100% - calc(1px * --value(integer))),
+		calc(5px * --value(integer)) calc(100% - calc(1px * --value(integer))),
+		calc(5px * --value(integer)) 100%,
+		calc(100% - calc(5px * --value(integer))) 100%,
+		calc(100% - calc(5px * --value(integer))) calc(100% - calc(1px * --value(integer))),
+		calc(100% - calc(3px * --value(integer))) calc(100% - calc(1px * --value(integer))),
+		calc(100% - calc(3px * --value(integer))) calc(100% - calc(2px * --value(integer))),
+		calc(100% - calc(2px * --value(integer))) calc(100% - calc(2px * --value(integer))),
+		calc(100% - calc(2px * --value(integer))) calc(100% - calc(3px * --value(integer))),
+		calc(100% - calc(1px * --value(integer))) calc(100% - calc(3px * --value(integer))),
+		calc(100% - calc(1px * --value(integer))) calc(100% - calc(5px * --value(integer))),
+		100% calc(100% - calc(5px * --value(integer))),
+		100% calc(5px * --value(integer)),
+		calc(100% - calc(1px * --value(integer))) calc(5px * --value(integer)),
+		calc(100% - calc(1px * --value(integer))) calc(3px * --value(integer)),
+		calc(100% - calc(2px * --value(integer))) calc(3px * --value(integer)),
+		calc(100% - calc(2px * --value(integer))) calc(2px * --value(integer)),
+		calc(100% - calc(3px * --value(integer))) calc(2px * --value(integer)),
+		calc(100% - calc(3px * --value(integer))) calc(1px * --value(integer)),
+		calc(100% - calc(5px * --value(integer))) calc(1px * --value(integer)),
+		calc(100% - calc(5px * --value(integer))) 0px,
+		calc(5px * --value(integer)) 0px,
+		calc(5px * --value(integer)) calc(1px * --value(integer)),
+		calc(3px * --value(integer)) calc(1px * --value(integer)),
+		calc(3px * --value(integer)) calc(2px * --value(integer)),
+		calc(2px * --value(integer)) calc(2px * --value(integer)),
+		calc(2px * --value(integer)) calc(3px * --value(integer)),
+		calc(1px * --value(integer)) calc(3px * --value(integer)),
+		calc(1px * --value(integer)) calc(5px * --value(integer)),
+		0px calc(5px * --value(integer))
+	);
+
+	&[class*="drop-shadow-"]:not([class~="drop-shadow-dynamic"], [class~="drop-shadow-none"]),
+	&[class~="drop-shadow-dynamic"][style*="--shadow"] {
+		clip-path: none;
+		&::after {
+			content: "";
+			@apply absolute size-full top-0 left-0 -z-1;
+			clip-path: polygon(
+				0px calc(100% - calc(5px * --value(integer))),
+				calc(1px * --value(integer)) calc(100% - calc(5px * --value(integer))),
+				calc(1px * --value(integer)) calc(100% - calc(3px * --value(integer))),
+				calc(2px * --value(integer)) calc(100% - calc(3px * --value(integer))),
+				calc(2px * --value(integer)) calc(100% - calc(2px * --value(integer))),
+				calc(3px * --value(integer)) calc(100% - calc(2px * --value(integer))),
+				calc(3px * --value(integer)) calc(100% - calc(1px * --value(integer))),
+				calc(5px * --value(integer)) calc(100% - calc(1px * --value(integer))),
+				calc(5px * --value(integer)) 100%,
+				calc(100% - calc(5px * --value(integer))) 100%,
+				calc(100% - calc(5px * --value(integer))) calc(100% - calc(1px * --value(integer))),
+				calc(100% - calc(3px * --value(integer))) calc(100% - calc(1px * --value(integer))),
+				calc(100% - calc(3px * --value(integer))) calc(100% - calc(2px * --value(integer))),
+				calc(100% - calc(2px * --value(integer))) calc(100% - calc(2px * --value(integer))),
+				calc(100% - calc(2px * --value(integer))) calc(100% - calc(3px * --value(integer))),
+				calc(100% - calc(1px * --value(integer))) calc(100% - calc(3px * --value(integer))),
+				calc(100% - calc(1px * --value(integer))) calc(100% - calc(5px * --value(integer))),
+				100% calc(100% - calc(5px * --value(integer))),
+				100% calc(5px * --value(integer)),
+				calc(100% - calc(1px * --value(integer))) calc(5px * --value(integer)),
+				calc(100% - calc(1px * --value(integer))) calc(3px * --value(integer)),
+				calc(100% - calc(2px * --value(integer))) calc(3px * --value(integer)),
+				calc(100% - calc(2px * --value(integer))) calc(2px * --value(integer)),
+				calc(100% - calc(3px * --value(integer))) calc(2px * --value(integer)),
+				calc(100% - calc(3px * --value(integer))) calc(1px * --value(integer)),
+				calc(100% - calc(5px * --value(integer))) calc(1px * --value(integer)),
+				calc(100% - calc(5px * --value(integer))) 0px,
+				calc(5px * --value(integer)) 0px,
+				calc(5px * --value(integer)) calc(1px * --value(integer)),
+				calc(3px * --value(integer)) calc(1px * --value(integer)),
+				calc(3px * --value(integer)) calc(2px * --value(integer)),
+				calc(2px * --value(integer)) calc(2px * --value(integer)),
+				calc(2px * --value(integer)) calc(3px * --value(integer)),
+				calc(1px * --value(integer)) calc(3px * --value(integer)),
+				calc(1px * --value(integer)) calc(5px * --value(integer)),
+				0px calc(5px * --value(integer))
+			);
+		}
 	}
 }
 
 @utility bg-pixel-* {
 	@apply bg-[--value(--color-*)];
 	@apply bg-[--value(--color-*)]/[calc(--modifier(integer)_*_1%)];
-	&[class*="rounded-pixel-"] {
+	&[class*="drop-shadow-"]:not([class~="drop-shadow-dynamic"], [class~="drop-shadow-none"]),
+	&[class~="drop-shadow-dynamic"][style*="--shadow"] {
 		@apply bg-transparent;
 		&::after {
 			@apply bg-[--value(--color-*)];
@@ -297,7 +419,7 @@
 @utility text-shadow-elevated {
 	@apply relative flex z-0;
 	&::before {
-		@apply absolute text-transparent scale-95 -z-1;
+		@apply absolute text-transparent scale-x-95 -z-1;
 		content: var(--text-shadow-elevated-content);
 
 		text-shadow: 0px 0.1em 0px #00000040;
@@ -307,4 +429,5 @@
 * {
 	font-smooth: antialiased;
 	-webkit-font-smoothing: antialiased;
+	image-rendering: pixelated;
 }

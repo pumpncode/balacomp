@@ -28,7 +28,7 @@ const processEdition = (card: typeof CardType) => {
 	}
 
 	item.tags = {};
-	item.image_url = `images/${center.key.replace("?", "_")}.png`;
+	item.image_url = `${center.key.replaceAll("?", "_")}.png`;
 
 	if (item.name !== undefined) {
 		return item;

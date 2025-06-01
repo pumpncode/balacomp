@@ -9,10 +9,16 @@ import {
  *
  * @param card - The card object to process
  * @param center - The center configuration object
+ * @param center.set - The root object
+ * @param center.key - The root object
  */
 const processConsumable = (
 	card: typeof CardType,
-	center: any
+	center: {
+		[key: string]: any,
+		key: string,
+		set: string
+	}
 ) => {
 	const item: Record<string, any> = {};
 
@@ -22,14 +28,14 @@ const processConsumable = (
 	}
 
 	item.key = center.key;
-	item.set = (center.set as string).replaceAll(" ", "_");
+	item.set = center.set.replaceAll(" ", "_");
 
 	item.mod = (center.mod && center.mod.id !== "Aura" && center.mod.id !== "aure_spectral")
 		? center.mod.id
 		: undefined;
 
 	item.tags = [];
-	item.image_url = `images/${(center.key as string).replaceAll("?", "_")}.png`;
+	item.image_url = `${center.key.replaceAll("?", "_")}.png`;
 
 	item.consumable = true;
 
@@ -180,8 +186,17 @@ const getRarityMap = (): Record<string, string> => ({
  *
  * @param card - The card object to process
  * @param center - The center configuration object
+ * @param center.key - The root object
+ * @param center.set - The root object
  */
-const processJoker = (card: typeof CardType, center: any) => {
+const processJoker = (
+	card: typeof CardType,
+	center: {
+		[key: string]: any,
+		key: string,
+		set: string
+	}
+) => {
 	const item: Record<string, any> = {};
 	const badges: any[] = [];
 
@@ -211,7 +226,7 @@ const processJoker = (card: typeof CardType, center: any) => {
 		: undefined;
 
 	item.tags = checkForTags(card);
-	item.image_url = `images/${(center.key as string).replaceAll("?", "_")}.png`;
+	item.image_url = `${center.key.replaceAll("?", "_")}.png`;
 
 	if (item.name) {
 		return item;
@@ -223,8 +238,17 @@ const processJoker = (card: typeof CardType, center: any) => {
  *
  * @param card - The card object to process
  * @param center - The center configuration object
+ * @param center.key - The root object
+ * @param center.set - The root object
  */
-const processOther = (card: typeof CardType, center: any) => {
+const processOther = (
+	card: typeof CardType,
+	center: {
+		[key: string]: any,
+		key: string,
+		set: string
+	}
+) => {
 	const item: Record<string, any> = {};
 
 	if (card.ability_UIBox_table) {
@@ -240,7 +264,7 @@ const processOther = (card: typeof CardType, center: any) => {
 		: undefined;
 
 	item.tags = [];
-	item.image_url = `images/${(center.key as string).replaceAll("?", "_")}.png`;
+	item.image_url = `${center.key.replaceAll("?", "_")}.png`;
 
 	if (item.name) {
 		return item;

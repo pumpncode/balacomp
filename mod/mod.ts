@@ -1,6 +1,7 @@
 /* eslint-disable new-cap */
 import {
 	log,
+	name,
 	queue,
 	server
 } from "./library/_exports.ts";
@@ -93,7 +94,7 @@ const { Atlas } = SMODS;
 
 Atlas({
 	key: "modicon",
-	path: "balacomp.png",
+	path: `${name}.png`,
 	px: 34,
 	py: 34
 });

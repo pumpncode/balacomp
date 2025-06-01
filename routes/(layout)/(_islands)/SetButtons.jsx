@@ -145,7 +145,7 @@ const SetButtons = ({ counts: defaultCounts }) => {
 	console.log(counts.value);
 
 	return (
-		<div className="drop-shadow-extrude drop-shadow-balatro-gray-600 bg-pixel-balatro-gray-500 rounded-pixel-8-2 min-w-47 flex min-h-36 flex-col items-end justify-end gap-4 self-start p-4 ">
+		<div className="drop-shadow-extrude drop-shadow-balatro-gray-800 bg-pixel-balatro-gray-600 rounded-pixel-8-2 min-w-47 flex min-h-36 flex-col items-end justify-end gap-4 self-start p-4 ">
 			<div className="flex gap-4">
 				{
 					topButtonConfigs

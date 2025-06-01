@@ -1,7 +1,7 @@
+/* eslint-disable max-statements */
 /* eslint-disable max-lines-per-function */
 
-/* eslint-disable max-statements */
-import { output_root } from "./_common/_exports.ts";
+import { outputRoot } from "./_common/_exports.ts";
 import {
 	processBlind,
 	processCard,
@@ -137,21 +137,14 @@ const run = () => {
 		: rawFilter
 			.filter((modString) => modString === "Balatro" || SMODS.Mods[modString] !== undefined);
 
-	if (!love.filesystem.getInfo(output_root)) {
-		love.filesystem.createDirectory(output_root);
+	if (!love.filesystem.getInfo(outputRoot)) {
+		love.filesystem.createDirectory(outputRoot);
 	}
-
-	if (!love.filesystem.getInfo(`${output_root}images`)) {
-		love.filesystem.createDirectory(`${output_root}images`);
-	}
-
-	const keys = Object
-		.keys(G.P_CENTERS)
-		.toSorted();
 
 	const groupedKeys = Map.groupBy(
 		Object.entries(G.P_CENTERS)
-			.filter(([key, center]) => center.set !== undefined),
+			.filter(([key, center]) => center.set !== undefined)
+			.toSorted(([keyA], [keyB]) => keyA.charCodeAt(0) - keyB.charCodeAt(0)),
 		([key, center]) => G.localization.misc.dictionary[`k_${center.set.toLowerCase()}`] ?? center.set
 	);
 
@@ -161,25 +154,26 @@ const run = () => {
 			[...groupedKeys]
 				.map(([set, centers]) => [
 					set,
-					centers
-						.map(([key, center]) => [
-							key,
-							center.mod === undefined
-								? {
-									...center,
-									mod: { id: "Balatro" }
-								}
-								: center
-						] as const)
-						.filter(([key, center]) => modFilter.includes(center.mod.id))
-						.map(([key, center]) => {
-							print(`Processing ${key} | ${center.set}`);
+					Object.fromEntries(
+						centers
+							.map(([key, center]) => [
+								key,
+								center.mod === undefined
+									? {
+										...center,
+										mod: { id: "Balatro" }
+									}
+									: center
+							] as const)
+							.filter(([key, center]) => modFilter.includes(center.mod.id))
+							.toSorted(([keyA], [keyB]) => keyA.charCodeAt(0) - keyB.charCodeAt(0))
+							.map(([key, center]) => {
+								print(`Processing ${key} | ${center.set}`);
 
-							const result = processCenter(center);
-
-							return [key, result];
-						})
-						.filter(([key, result]) => result !== undefined)
+								return [key, processCenter(center)];
+							})
+							.filter(([key, result]) => result !== undefined)
+					)
 				])
 		)
 	);
@@ -408,10 +402,15 @@ const run = () => {
 		name: "Balatro"
 	};
 
-	const modsEntries = [["Balatro", baseMod], ...Object.entries(SMODS.Mods)] as const;
+	const uniqueModKeys = [...(new Set(Object.keys(SMODS.Mods)))];
+
+	const uniqueMods = uniqueModKeys.map((key) => [key, SMODS.Mods[key]] as const);
+
+	const modsEntries = [["Balatro", baseMod], ...uniqueMods] as const;
 
 	sets.Mods = modsEntries
 		.filter(([key, { id, can_load }]) => modFilter.includes(id) && can_load)
+		.toSorted(([keyA], [keyB]) => keyA.charCodeAt(0) - keyB.charCodeAt(0))
 		.map(([key, mod]) => {
 			print(`Processing mod: ${mod.id} | ${mod.name}`);
 

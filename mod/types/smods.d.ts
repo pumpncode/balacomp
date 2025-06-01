@@ -27,6 +27,7 @@ type Mod = {
 	meta_mod?: true,
 	name?: string,
 	optional_features?: (() => typeof SMODS.optional_features) | SMODS.optional_features,
+	path: string,
 	prefix?: string,
 	priority?: number,
 	provides?: string[],
@@ -71,6 +72,8 @@ declare global {
 		}) => any;
 
 		const Mods: Record<string, Mod>;
+
+		const current_mod: Mod;
 
 		type optional_features = {
 			cardareas: {

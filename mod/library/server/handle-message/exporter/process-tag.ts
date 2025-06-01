@@ -33,7 +33,7 @@ const processTag = (tag: typeof TagType) => {
 
 	item.tags = {};
 
-	item.image_url = `images/${tag.key.replace("?", "_")}.png`;
+	item.image_url = `${tag.key.replace("?", "_")}.png`;
 	if (item.name) {
 		return item;
 	}

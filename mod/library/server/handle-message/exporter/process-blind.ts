@@ -45,7 +45,7 @@ const processBlind = (blind: typeof BlindType) => {
 		item.mod = blind.mod.id;
 	}
 	item.tags = {};
-	item.image_url = `images/${blind.key.replace("?", "_")}.png`;
+	item.image_url = `${blind.key.replace("?", "_")}.png`;
 
 	if (item.name) {
 		return item;

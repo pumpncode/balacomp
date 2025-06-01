@@ -39,7 +39,7 @@ const processPlayingCard = (
 		: undefined;
 
 	item.tags = [];
-	item.image_url = `images/${(key as string).replaceAll("?", "_")}.png`;
+	item.image_url = `${key.replaceAll("?", "_")}.png`;
 
 	// Only add to sets if item has a name
 	if (item.name) {

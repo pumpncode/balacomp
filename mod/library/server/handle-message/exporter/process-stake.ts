@@ -43,7 +43,7 @@ const processStake = (stake: typeof SMODS.Stake) => {
 		vars: localizationVariables
 	});
 
-	item.image_url = `images/${stake.key.replaceAll("?", "_")}.png`;
+	item.image_url = `${stake.key.replaceAll("?", "_")}.png`;
 
 	if (item.name) {
 		return item;

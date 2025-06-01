@@ -22,5 +22,8 @@
 		"noEmit": true,
 		"strictNullChecks": true,
 		"strictPropertyInitialization": false
-	}
+	},
+	"exclude": [
+		"**/_fresh/*"
+	]
 }

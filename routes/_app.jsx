@@ -1,17 +1,19 @@
+import { asset, Partial } from "fresh/runtime";
+
+import { define } from "./(_common)/_exports.js";
+
 /**
  * @import { PageProps } from "fresh";
  * @import { JSX } from "preact";
  */
-
-import { Light } from "./(app)/(_islands)/_exports.js";
 
 /**
  * @param {PageProps} props - The root object
  * @returns {JSX.Element}
  * @example
  */
-const App = ({ Component }) => (
-	<html className="h-full">
+const App = define.page(({ Component }) => (
+	<html className="size-full" lang="en">
 		<head>
 			<meta charset="utf-8" />
 
@@ -31,17 +33,21 @@ const App = ({ Component }) => (
 
 			<title>balacomp</title>
 
+			<link
+				as="font"
+				crossorigin="anonymous"
+				href={asset("/fonts/m6x11plus.ttf")}
+				rel="preload"
+				type="font/ttf"
+			/>
+
 			<link href="/style.compiled.css" rel="stylesheet" />
 
 			<script src="https://esm.sh/temporal-polyfill" type="module" />
 		</head>
 
-		<body className="bg-balatro-gray-700 flex min-h-full flex-col justify-stretch p-8">
-			<Component />
-
-			<Light />
-		</body>
+		<Component />
 	</html>
-);
+));
 
 export default App;

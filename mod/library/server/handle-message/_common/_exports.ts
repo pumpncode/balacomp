@@ -1,1 +1,1 @@
-export { default as output_root } from "./output_root";
+export { default as outputRoot } from "./output-root.ts";

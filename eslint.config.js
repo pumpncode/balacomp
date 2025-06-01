@@ -49,7 +49,8 @@ const eslintConfig = [
 			"jsdoc/require-example": "off",
 			"jsdoc/require-param-type": "off",
 			"jsdoc/require-returns": "off",
-			"unicorn/no-useless-fallback-in-spread": "off"
+			"unicorn/no-useless-fallback-in-spread": "off",
+			"unicorn/prefer-code-point": "off"
 		}
 	},
 	{

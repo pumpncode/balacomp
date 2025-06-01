@@ -1,2 +1,1 @@
-export { default as MainButtons } from "./MainButtons.jsx";
-export { default as SetButtons } from "./SetButtons.jsx";
+export { default as AutoSizedText } from "./auto-sized-text.jsx";

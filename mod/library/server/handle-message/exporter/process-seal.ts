@@ -39,7 +39,7 @@ const process_seal = (card: any, seal: typeof SMODS.Seal) => {
 	}
 
 	item.tags = [];
-	item.image_url = `images/${(seal.key as string).replaceAll("?", "_")}.png`;
+	item.image_url = `${seal.key.replaceAll("?", "_")}.png`;
 
 	if (item.name) {
 		return item;

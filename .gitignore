@@ -476,3 +476,5 @@ xcuserdata/
 .env
 
 /_fresh
+
+/static/images/content

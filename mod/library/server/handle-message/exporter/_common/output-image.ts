@@ -1,8 +1,8 @@
 /* eslint-disable max-statements */
 import { ImageData } from "love.image";
-import output_root from "~/library/server/handle-message/_common/output_root.ts";
+import outputRoot from "~/library/server/handle-message/_common/output-root.ts";
 
-const imagesFolderPath = `${output_root}images/`;
+const imagesFolderPath = outputRoot;
 
 type ParameterType = typeof BlindType |
 	typeof CardType |
@@ -13,9 +13,9 @@ type ParameterType = typeof BlindType |
 	{
 		atlas: string,
 		key: string,
-		pos: {
+		pos?: {
 			x?: number,
-			y: number
+			y?: number
 		},
 		set?: string,
 		soul_pos?: {
@@ -49,7 +49,7 @@ const createAnimationFrames = (
 	regionH: number
 ): ImageData[] => {
 	// y-offset for this row of sprites:
-	const rowY = Math.round(card.pos.y * regionH);
+	const rowY = Math.round((card.pos?.y ?? 0) * regionH);
 
 	// How many frames fit in the sheet’s width?
 	const sheetW = atlasData.getWidth();
@@ -114,7 +114,8 @@ const ensureAtlasImageData = (
 			(item.name === "chips" && card.set === "Stake") ||
 			(item.name === "Tarot" && card.set === "Spectral") ||
 			(item.name === "Tarot" && card.set === "Planet") ||
-			(item.name === "cards_1" && card.atlas === "cards_1")
+			(item.name === "cards_1" && card.atlas === "cards_1") ||
+			(item.name === "tags" && card.key.startsWith("icon_"))
 		)) ??
 		G.animation_atli.find((item) => (
 			item.name === card.set ||
@@ -125,7 +126,8 @@ const ensureAtlasImageData = (
 			(item.name === "chips" && card.set === "Stake") ||
 			(item.name === "Tarot" && card.set === "Spectral") ||
 			(item.name === "Tarot" && card.set === "Planet") ||
-			(item.name === "cards_1" && card.atlas === "cards_1")
+			(item.name === "cards_1" && card.atlas === "cards_1") ||
+			(item.name === "tags" && card.key.startsWith("icon_"))
 		));
 
 		if (atlasItem === undefined) {
@@ -204,9 +206,6 @@ const getLogicalAndRegion = (
  * @noSelf
  */
 const saveImageData = (imageData: ImageData, filePath: string) => {
-	if (love.filesystem.getInfo(filePath)) {
-		love.filesystem.remove(filePath);
-	}
 	imageData.encode("png", filePath);
 };
 
@@ -225,8 +224,8 @@ const createImageData = (
 	regionW: number,
 	regionH: number
 ) => {
-	const sourceX = Math.round((card.pos.x ?? 0) * regionW);
-	const sourceY = Math.round((card.pos.y ?? 0) * regionH);
+	const sourceX = Math.round((card.pos?.x ?? 0) * regionW);
+	const sourceY = Math.round((card.pos?.y ?? 0) * regionH);
 
 	const imageData = love.image.newImageData(regionW, regionH);
 
@@ -477,7 +476,7 @@ const outputAnimation = ({
 	regionH: number,
 	regionW: number
 }) => {
-	const folderPath = `${imagesFolderPath}${fileNamePrefix}/`;
+	const folderPath = [imagesFolderPath, fileNamePrefix].join("/");
 
 	love.filesystem.createDirectory(folderPath);
 	const frames = createAnimationFrames(card, atlasData, regionW, regionH);
@@ -493,7 +492,7 @@ const outputAnimation = ({
 
 	for (const [index, frameData] of frames.entries()) {
 		outputFrame({
-			filePath: `${folderPath}${fileNamePrefix}_${index}.png`,
+			filePath: [folderPath, `${fileNamePrefix}_${index}.png`].join("/"),
 			frameData,
 			logicalH,
 			logicalW,
@@ -501,21 +500,24 @@ const outputAnimation = ({
 			regionW
 		});
 	}
+
+	const indexFilePath = [folderPath, `${fileNamePrefix}_%d.png`].join("/");
+	const gifFilePath = [imagesFolderPath, `${fileNamePrefix}.gif`].join("/");
+	const apngFilePath = [imagesFolderPath, `${fileNamePrefix}.apng`].join("/");
+
 	const IS_WINDOWS = love.system.getOS() === "Windows";
 	const SH_PREFIX = IS_WINDOWS ? "powershell.exe -command " : "";
 	const common = "-threads 0 -thread_type slice -vsync 0";
 	const EXPORT_FPS = 10;
 	const FPS_FLAG = String(EXPORT_FPS);
 	const QUOTE = IS_WINDOWS ? "\"" : "'";
-	const INPUT_PATTERN = `${QUOTE}${folderPath}${fileNamePrefix}_%d.png${QUOTE}`;
+	const INPUT_PATTERN = `${QUOTE}${indexFilePath}${QUOTE}`;
 	const GIF_FPSFLAG = String((100 / 3) * (EXPORT_FPS / 30));
 	const filt_gif = `${QUOTE}format=rgba,fps=${GIF_FPSFLAG},split[a][b];[a]palettegen=reserve_transparent=1:stats_mode=single[p];[b][p]paletteuse=dither=bayer:bayer_scale=5:new=1${QUOTE}`;
-	const gif_path = `${imagesFolderPath}${fileNamePrefix}.gif`;
 	const filt_apng = `${QUOTE}format=rgba,fps=${FPS_FLAG}${QUOTE}`;
-	const apng_path = `${imagesFolderPath}${fileNamePrefix}.apng`;
 	const NULL_REDIRECT = IS_WINDOWS ? "> $null 2>&1" : "> /dev/null 2>&1";
-	const ffmpegGifCommand = `${SH_PREFIX}ffmpeg -y ${common} -f image2 -framerate ${FPS_FLAG} -start_number 0 -i ${INPUT_PATTERN} -filter_complex ${filt_gif} -gifflags +transdiff -color_primaries bt709 -colorspace bt709 -color_trc bt709 -loop 0 ${gif_path} ${NULL_REDIRECT}`;
-	const ffmpegApngCommand = `${SH_PREFIX}ffmpeg -y ${common} -f image2 -framerate ${FPS_FLAG} -start_number 0 -i ${INPUT_PATTERN} -filter_complex ${filt_apng} -plays 0 -pix_fmt rgba -compression_level 3 ${apng_path} ${NULL_REDIRECT}`;
+	const ffmpegGifCommand = `${SH_PREFIX}ffmpeg -y ${common} -f image2 -framerate ${FPS_FLAG} -start_number 0 -i ${INPUT_PATTERN} -filter_complex ${filt_gif} -gifflags +transdiff -color_primaries bt709 -colorspace bt709 -color_trc bt709 -loop 0 ${gifFilePath} ${NULL_REDIRECT}`;
+	const ffmpegApngCommand = `${SH_PREFIX}ffmpeg -y ${common} -f image2 -framerate ${FPS_FLAG} -start_number 0 -i ${INPUT_PATTERN} -filter_complex ${filt_apng} -plays 0 -pix_fmt rgba -compression_level 3 ${apngFilePath} ${NULL_REDIRECT}`;
 
 	os.execute(ffmpegApngCommand);
 	os.execute(ffmpegGifCommand);
@@ -544,7 +546,7 @@ const outputImage = (card: ParameterType, prefix = "") => {
 
 	const fileNamePrefix = `${prefix}${card.key.replaceAll("?", "_")}`;
 
-	const filePath = `${imagesFolderPath}${fileNamePrefix}.png`;
+	const filePath = [imagesFolderPath, `${fileNamePrefix}.png`].join("/");
 
 	const {
 		logicalH, logicalW, regionH, regionW
@@ -579,6 +581,7 @@ const outputImage = (card: ParameterType, prefix = "") => {
 	if (imageData.getWidth() !== logicalW || imageData.getHeight() !== logicalH) {
 		imageData = resizeImageData(imageData, logicalW, logicalH);
 	}
+
 	saveImageData(imageData, filePath);
 };
 
